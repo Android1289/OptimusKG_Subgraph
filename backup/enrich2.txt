@@ -1,0 +1,74 @@
+import networkx as nx
+import requests
+import time
+
+# Load your existing subgraph
+G = nx.read_graphml("C:/Users/abuba/Desktop/FYP/disease_subgraph.graphml")
+print(f"Starting: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
+
+# ── STEP 1: Add names to disease nodes using OLS API ──
+print("\nFetching disease names...")
+dis_nodes = [n for n, d in G.nodes(data=True) if d.get('label') == 'DIS']
+
+for node_id in dis_nodes:
+    api_id = node_id.replace("_", ":")
+    try:
+        url = f"https://www.ebi.ac.uk/ols4/api/terms?id={api_id}"
+        r = requests.get(url, timeout=10)
+        if r.status_code == 200:
+            data = r.json()
+            terms = data.get('_embedded', {}).get('terms', [])
+            if terms:
+                name = terms[0].get('label', '')
+                G.nodes[node_id]['name'] = name
+                print(f"  {node_id} → {name}")
+        time.sleep(0.3)
+    except Exception as e:
+        print(f"  {node_id} → Error: {e}")
+
+# ── STEP 2: Add names to drug nodes using ChEMBL API ──
+print("\nFetching drug names from ChEMBL...")
+drg_nodes = [n for n, d in G.nodes(data=True) if d.get('label') == 'DRG']
+
+for node_id in drg_nodes:
+    try:
+        url = f"https://www.ebi.ac.uk/chembl/api/data/molecule/{node_id}?format=json"
+        r = requests.get(url, timeout=10)
+        if r.status_code == 200:
+            data = r.json()
+            G.nodes[node_id]['name'] = data.get('pref_name', '') or ''
+            G.nodes[node_id]['molecule_type'] = data.get('molecule_type', '') or ''
+            print(f"  {node_id} → {G.nodes[node_id]['name']}")
+        time.sleep(0.3)
+    except Exception as e:
+        print(f"  {node_id} → Error: {e}")
+
+# ── STEP 3: Add names to gene nodes using Ensembl API ──
+print("\nFetching gene names from Ensembl...")
+gen_nodes = [n for n, d in G.nodes(data=True) if d.get('label') == 'GEN']
+
+for node_id in gen_nodes:
+    try:
+        url = f"https://rest.ensembl.org/lookup/id/{node_id}?content-type=application/json"
+        r = requests.get(url, timeout=10)
+        if r.status_code == 200:
+            data = r.json()
+            G.nodes[node_id]['name'] = data.get('display_name', '') or ''
+            G.nodes[node_id]['description'] = data.get('description', '') or ''
+            print(f"  {node_id} → {G.nodes[node_id]['name']}")
+        time.sleep(0.3)
+    except Exception as e:
+        print(f"  {node_id} → Error: {e}")
+
+# ── STEP 4: Clean None values before saving ──
+print("\nCleaning None values...")
+for node, data in G.nodes(data=True):
+    for key, value in list(data.items()):
+        if value is None:
+            G.nodes[node][key] = ''
+
+# ── STEP 5: Save ──
+print("Saving enriched graph...")
+nx.write_graphml(G, "C:/Users/abuba/Desktop/FYP/enriched_subgraph.graphml")
+print("Done. Saved as enriched_subgraph.graphml")
+print(f"Final: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")

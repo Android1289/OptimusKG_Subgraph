@@ -1,0 +1,97 @@
+    
+KeyboardInterrupt
+PS C:\Users\abuba\Desktop\FYP> & C:\Users\abuba\AppData\Local\Python\pythoncore-3.14-64\python.exe c:/Users/abuba/Desktop/FYP/enrich_v2.py
+Starting: 2149 nodes, 19633 edges
+
+── Adding curated Dengue candidates ──
+  Added: Ivermectin → Dengue
+  Added: Chloroquine → Dengue
+  Added: Chloroquine → Dengue
+  Added: Ribavirin → Dengue
+  Added: Celgosivir → Dengue
+  Added: Prednisolone → Dengue
+  Added: Dexamethasone → Dengue
+  Added: Lovastatin → Dengue
+  Added: Balapiravir → Dengue
+
+── Adding curated CL candidates ──
+  Added: Auranofin → CL
+  Added: Nitazoxanide → CL
+  Added: Cyclophosphamide → CL
+  Added: Chloroquine → CL
+  Added: Doxycycline → CL
+  Added: Clofazimine → CL
+
+── Fetching DisGeNET gene-disease associations ──
+
+  Fetching genes for Cutaneous Leishmaniasis...
+  Error: Expecting value: line 1 column 1 (char 0)
+
+  Fetching genes for Tuberculosis...
+  Error: Expecting value: line 1 column 1 (char 0)
+
+  Fetching genes for Dengue...
+  Error: Expecting value: line 1 column 1 (char 0)
+
+── Adding key Leishmania protein targets ──
+  Added target: Leishmania Arginase (LamARG) → CL
+  Added target: Leishmania PTR1 → CL
+  Added target: Leishmania DHFR-TS → CL
+  Added target: Leishmania TryS → CL
+
+Cleaning None values...
+Saved as enriched_subgraph_v3_selective.graphml
+
+Final: 2161 nodes, 19652 edges
+
+=== TARGET DISEASE CONNECTIONS ===
+  Cutaneous Leishmaniasis: 20 incoming, 41 outgoing
+  MDR-TB: 835 incoming, 280 outgoing
+  Dengue: 15 incoming, 66 outgoing
+PS C:\Users\abuba\Desktop\FYP> & C:\Users\abuba\AppData\Local\Python\pythoncore-3.14-64\python.exe c:/Users/abuba/Desktop/FYP/enrich_v2_2.py
+Starting: 2161 nodes, 19652 edges
+Getting DisGeNET API token...
+Traceback (most recent call last):
+  File "C:\Users\abuba\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\requests\models.py", line 1116, in json
+    return complexjson.loads(self.text, **kwargs)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\abuba\AppData\Local\Python\pythoncore-3.14-64\Lib\json\__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Users\abuba\AppData\Local\Python\pythoncore-3.14-64\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\abuba\AppData\Local\Python\pythoncore-3.14-64\Lib\json\decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\abuba\Desktop\FYP\enrich_v2_2.py", line 22, in <module>
+    token = auth_resp.json().get("token")
+            ~~~~~~~~~~~~~~^^
+  File "C:\Users\abuba\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\requests\models.py", line 1120, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+PS C:\Users\abuba\Desktop\FYP> & C:\Users\abuba\AppData\Local\Python\pythoncore-3.14-64\python.exe c:/Users/abuba/Desktop/FYP/enrich_v2_2.py
+Starting: 2161 nodes, 19652 edges
+
+Fetching genes for Cutaneous Leishmaniasis...
+  Error: Expecting value: line 1 column 1 (char 0)
+
+Fetching genes for Tuberculosis...
+  Error: Expecting value: line 1 column 1 (char 0)
+
+Fetching genes for Dengue...
+  Error: Expecting value: line 1 column 1 (char 0)
+
+Cleaning None values...
+Saved as C:/Users/abuba/Desktop/FYP/enriched_subgraph_v3_selective.graphml
+Final: 2161 nodes, 19652 edges
+
+=== TARGET DISEASE CONNECTIONS ===
+  Cutaneous Leishmaniasis: 20 incoming, 41 outgoing
+  MDR-TB: 835 incoming, 280 outgoing
+  Dengue: 15 incoming, 66 outgoing
+PS C:\Users\abuba\Desktop\FYP> 

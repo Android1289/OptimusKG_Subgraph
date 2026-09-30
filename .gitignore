@@ -1,0 +1,9 @@
+# Large GraphML files
+chEMBLv1.graphml
+chEMBLv2.graphml
+chEMBLv3.graphml
+chEMBLv4.graphml
+
+# Large Parquet files
+edges.parquet
+nodes.parquet

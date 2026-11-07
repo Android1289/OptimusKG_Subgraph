@@ -1,0 +1,34 @@
+# HYPOTHESIS: graph enrichment, GNN training and pipeline dependencies
+# Works with Python 3.12 to 3.14 (PyTorch and PyG support 3.10 to 3.14)
+# Install with:  pip install -r requirements.txt
+ 
+# --- Graph data and enrichment ---
+optimuskg
+polars>=1.0
+pandas>=2.2
+numpy>=2.0
+networkx>=3.3
+requests>=2.32
+lxml>=5.0
+openpyxl>=3.1
+xlrd>=2.0
+tqdm>=4.66
+python-dotenv>=1.0
+ 
+# --- GNN training and evaluation ---
+# On Windows this installs the CPU build of PyTorch, which is enough for a
+# graph of this size. For an NVIDIA GPU, run the command from
+# pytorch.org/get-started/locally BEFORE this file and pip will keep it.
+torch>=2.9
+torch-geometric>=2.6
+scikit-learn>=1.5
+matplotlib>=3.9
+ 
+# --- Loading the graph into Neo4j (Python driver only, see notes) ---
+neo4j>=5.20
+ 
+# --- Agentic PubMed pipeline and explanation layer ---
+biopython>=1.84
+anthropic>=0.40
+transformers>=4.44
+ 

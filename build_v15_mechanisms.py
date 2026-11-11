@@ -1,9 +1,21 @@
 #!/usr/bin/env python3
 """
-build_v15_mechanisms.py : Fast offline enrichment of drug-target (DRG-GEN), high-confidence
-disease-gene (DIS-GEN), gene-pathway (GEN-PWY), and drug parent (DRG-DRG PARENT) edges from
-local edges.parquet and nodes.parquet. Also updates node_features.npz for all GEN nodes
-uniformly while preserving your existing DRG (RDKit/ChEMBL) features.
+build_v15_mechanisms.py : Fast offline enrichment + clinical-phase hygiene for HYPOTHESIS KG.
+
+What this script fixes on top of kg_v14_expanded.graphml:
+  1) Stratifies OptimusKG DRG-DIS 'INDICATION' edges using properties.highest_clinical_trial_phase:
+     - Keeps Phase 3/4 (phase >= 3.0) and DrugCentral-verified edges as strict 'INDICATION'.
+     - Relabels Phase 2 OpenTargets-only edges from 'INDICATION' to 'CLINICAL_TRIAL' (removes 16,503
+       exploratory Phase 2 trials from training positives so PPIs/probes stop polluting supervision).
+     - Drops Phase <= 1.0 (-1, 0.5, 1.0) OpenTargets-only DDI/PK probe edges (removes 11,980 Phase 1
+       edges such as Omeprazole/Midazolam DDI probes), while keeping known Dengue/TB Phase 1 antiviral
+       and anti-TB investigational candidates in 'CLINICAL_TRIAL' for test evaluation.
+  2) Flags non-therapeutic excipients/vehicles/diagnostics (Sodium Chloride, Lactose, Aluminum Hydroxide,
+     Tuberculin, etc.) with candidate='no' so they are never ranked as drug candidates.
+  3) Adds 17,434 pharmacological DRG-GEN edges (excluding metabolic/transporter hubs ENZYME, TRANSPORTER,
+     CARRIER), high-confidence DIS-GEN bridge edges, GEN-PWY Reactome links, and 1,211 DRG-DRG (PARENT)
+     salt-to-parent edges from local edges.parquet and nodes.parquet.
+  4) Updates node_features.npz in-place for all GEN nodes while preserving RDKit DRG features.
 
 Usage (from C:\\Users\\Abuba\\Desktop\\FYP\\OptimusKG_Subgraph):
     python build_v15_mechanisms.py --in kg_v14_expanded.graphml --out kg_v15_mechanisms.graphml
@@ -21,8 +33,12 @@ import polars as pl
 
 FOLDER = os.environ.get("HYP_FOLDER", "C:/Users/Abuba/Desktop/FYP/OptimusKG_Subgraph/")
 MAIN_DISEASES = {"EFO_0005046", "MONDO_0018076", "EFO_0005547"}
-# Exclude metabolic/transport/plasma-binding super-hubs (CYP450s, P-gp, Albumin) that link unrelated drugs
 NON_TARGET_RELS = {"ENZYME", "TRANSPORTER", "CARRIER"}
+EXCIPIENT_NAMES = {
+    "SODIUM CHLORIDE", "SODIUM CHLORIDE NA 22", "LACTOSE, ANHYDROUS", "LACTOSE",
+    "ALUMINUM HYDROXIDE", "TUBERCULIN", "WATER", "STERILE WATER", "DEXTROSE",
+    "MANNITOL", "GLYCERIN", "BARIUM SULFATE"
+}
 
 
 def text_features_256(texts, dim=256):
@@ -67,8 +83,63 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
     gen_nodes = {n for n, d in G.nodes(data=True) if d.get("label") == "GEN"}
     pwy_nodes = {n for n, d in G.nodes(data=True) if d.get("label") == "PWY"}
 
+    # Flag non-therapeutic excipients/diagnostics as candidate='no'
+    excip_flagged = 0
+    for n in drg_nodes:
+        nm = str(G.nodes[n].get("name") or "").strip().upper()
+        if nm in EXCIPIENT_NAMES and G.nodes[n].get("candidate") != "no":
+            G.nodes[n]["candidate"] = "no"
+            excip_flagged += 1
+    print(f"  Flagged {excip_flagged} non-therapeutic excipient/diagnostic nodes as candidate='no'")
+
     print(f"Reading {edges_path} ...")
     edges_df = pl.read_parquet(edges_path)
+
+    # 0. Audit & stratify DRG-DIS INDICATION edges using highest_clinical_trial_phase in edges.parquet
+    ind_df = edges_df.filter(
+        (pl.col("label") == "DRG-DIS")
+        & (pl.col("relation") == "INDICATION")
+        & (pl.col("from").is_in(dis_nodes) | pl.col("to").is_in(dis_nodes))
+    )
+    phase_lut = {}
+    for row in ind_df.iter_rows(named=True):
+        u, v = row["from"], row["to"]
+        d_id, s_id = (u, v) if u in drg_nodes else (v, u)
+        props = row.get("properties")
+        if props:
+            try:
+                p = json.loads(props)
+                phase = p.get("highest_clinical_trial_phase")
+                srcs = set(p.get("sources", {}).get("direct") or [])
+                phase_lut[(d_id, s_id)] = (float(phase) if phase is not None else None, "DRUG_CENTRAL" in srcs)
+            except Exception:
+                pass
+
+    kept_strict, moved_to_trial, dropped_phase1 = 0, 0, 0
+    for u, v, d in list(G.edges(data=True)):
+        if d.get("relation") != "INDICATION":
+            continue
+        if (u, v) not in phase_lut:
+            kept_strict += 1
+            continue
+        phase, has_dc = phase_lut[(u, v)]
+        if has_dc or (phase is not None and phase >= 3.0):
+            kept_strict += 1
+        elif phase == 2.0:
+            G.edges[u, v]["relation"] = "CLINICAL_TRIAL"
+            G.edges[u, v]["phase"] = "2.0"
+            moved_to_trial += 1
+        else:
+            # Phase <= 1.0 or -1.0 OpenTargets-only edge
+            if v in MAIN_DISEASES and G.nodes[u].get("candidate") != "no" and phase == 1.0:
+                G.edges[u, v]["relation"] = "CLINICAL_TRIAL"
+                G.edges[u, v]["phase"] = "1.0"
+                moved_to_trial += 1
+            else:
+                G.remove_edge(u, v)
+                dropped_phase1 += 1
+    print(f"  Stratified DRG-DIS INDICATION edges: {kept_strict} kept as strict (Phase 3/4 or DrugCentral), "
+          f"{moved_to_trial} relabelled to CLINICAL_TRIAL (Phase 2), {dropped_phase1} Phase <= 1 probe edges removed")
 
     # 1. Extract pharmacological DRG-GEN edges for our drugs
     dg_df = edges_df.filter(
@@ -116,7 +187,6 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         if score >= thresh:
             per_dis_candidates[dis_id].append((score, g_id))
 
-    # Keep top-K highest-scoring genes per disease (keep up to 250 for main test diseases)
     selected_dis_gen = []
     gene_dis_count = Counter()
     for dis_id, items in per_dis_candidates.items():
@@ -126,7 +196,6 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
             selected_dis_gen.append((dis_id, g_id, score))
             gene_dis_count[g_id] += 1
 
-    # Filter out extreme pleiotropic super-hubs across the 850 diseases, EXCEPT always keep edges on MAIN_DISEASES
     filtered_dis_gen = [
         (dis_id, g_id, score)
         for dis_id, g_id, score in selected_dis_gen
@@ -134,7 +203,6 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
     ]
     bridge_genes = {g_id for _, g_id, _ in filtered_dis_gen} | gen_nodes
 
-    # Also keep target genes that are targeted by >= 2 drugs in our graph so drug-drug shared-target paths exist
     drug_counts_per_gene = Counter(g_id for _, g_id, _ in drg_gen_pairs)
     multi_drug_genes = {g_id for g_id, c in drug_counts_per_gene.items() if c >= 2}
     genes_to_keep = bridge_genes | multi_drug_genes
@@ -164,14 +232,12 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         display = f"{symbol} ({name})".strip() if symbol and name else (symbol or name or gid)
         gene_meta[gid] = (symbol or name or gid, display)
 
-    # Add new gene nodes
     added_genes = 0
     for gid in sorted(new_gene_ids):
         short_name, desc = gene_meta.get(gid, (gid, gid))
         G.add_node(gid, label="GEN", name=short_name, description=desc, source="OptimusKG_mechanisms")
         added_genes += 1
 
-    # Add DRG-GEN edges onto kept genes
     added_drg_gen = 0
     drg_gen_rel_counts = Counter()
     for d_id, g_id, rel in drg_gen_pairs:
@@ -182,7 +248,6 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
             added_drg_gen += 1
             drg_gen_rel_counts[rel] += 1
 
-    # Add DIS-GEN edges
     added_dis_gen = 0
     for dis_id, g_id, score in filtered_dis_gen:
         if g_id not in genes_to_keep:
@@ -191,7 +256,6 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
             G.add_edge(dis_id, g_id, label="DIS-GEN", relation="ASSOCIATED_WITH", score=f"{score:.4f}", source="OptimusKG_mechanisms")
             added_dis_gen += 1
 
-    # Add GEN-PWY edges to existing Reactome pathways in the graph
     added_gen_pwy = 0
     for gid, pwys in gene_reactome.items():
         if gid not in G:
@@ -215,9 +279,9 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
             G.add_edge(u, v, label="DRG-DRG", relation="PARENT", source="OptimusKG_mechanisms")
             added_drg_parent += 1
 
-    print(f"\nAdded to graph:")
+    print(f"\nSummary of changes:")
     print(f"  + {added_genes} new GEN nodes (total GEN: {len(gen_nodes) + added_genes})")
-    print(f"  + {added_drg_gen} DRG-GEN edges {dict(drg_gen_rel_counts)}")
+    print(f"  + {added_drg_gen} DRG-GEN edges")
     print(f"  + {added_dis_gen} high-confidence DIS-GEN edges")
     print(f"  + {added_gen_pwy} GEN-PWY edges onto existing Reactome pathways")
     print(f"  + {added_drg_parent} DRG-DRG (PARENT) salt/parent edges")
@@ -227,21 +291,14 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
             g_nbrs = sum(1 for _, v in G.out_edges(did) if G.nodes[v].get("label") == "GEN") + sum(
                 1 for u, _ in G.in_edges(did) if G.nodes[u].get("label") == "GEN"
             )
-            print(f"  Target disease {did} ({G.nodes[did].get('name')}): now has {g_nbrs} GEN edges")
-
-    drugs_with_targets = sum(
-        1
-        for n in drg_nodes
-        if G.nodes[n].get("candidate") != "no"
-        and any(G.nodes[v].get("label") in ("GEN", "TGT") for _, v in G.out_edges(n))
-    )
-    print(f"  Candidate drugs with >= 1 target gene/protein edge: {drugs_with_targets} / {sum(1 for n in drg_nodes if G.nodes[n].get('candidate') != 'no')}")
+            strict_n = sum(1 for u, _, d in G.in_edges(did, data=True) if G.nodes[u].get("candidate") != "no" and d.get("relation") in ("INDICATION", "OFF_LABEL_USE"))
+            trial_n = sum(1 for u, _, d in G.in_edges(did, data=True) if G.nodes[u].get("candidate") != "no" and d.get("relation") == "CLINICAL_TRIAL")
+            print(f"  Target {did} ({G.nodes[did].get('name')}): {g_nbrs} GEN edges | strict={strict_n}, trial={trial_n}")
 
     clean_graphml_attrs(G)
     nx.write_graphml(G, out_path)
     print(f"Saved {out_path} ({G.number_of_nodes()} nodes, {G.number_of_edges()} edges)")
 
-    # 5. Update node_features.npz in-place for all GEN nodes uniformly so build_features.py does not need to re-fetch ChEMBL
     if os.path.exists(feat_path):
         feats = dict(np.load(feat_path, allow_pickle=False))
         old_gen_X = np.asarray(feats["X_GEN"], dtype=np.float32)
@@ -258,7 +315,7 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Add local DRG-GEN, DIS-GEN, and DRG-DRG PARENT mechanisms from OptimusKG parquet files")
+    ap = argparse.ArgumentParser(description="Add local DRG-GEN, DIS-GEN, and DRG-DRG PARENT mechanisms + stratify clinical trial phases")
     ap.add_argument("--in", dest="infile", default=os.path.join(FOLDER, "kg_v14_expanded.graphml"))
     ap.add_argument("--out", dest="outfile", default=os.path.join(FOLDER, "kg_v15_mechanisms.graphml"))
     ap.add_argument("--edges", default=os.path.join(FOLDER, "edges.parquet"))

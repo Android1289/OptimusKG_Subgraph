@@ -1,101 +1,101 @@
 rank,drug_id,drug_name,score,train_deg,already_known_as,mechanism_summary
-1,CHEMBL880,FAMCICLOVIR,7.2115,7,,n_targets=0
-2,CHEMBL1401,NITAZOXANIDE,7.0058,10,,n_targets=0
-3,CHEMBL372795,STREPTOMYCIN,6.9413,10,,n_targets=1
-4,CHEMBL184,ACYCLOVIR,6.7899,11,,n_targets=0
-5,CHEMBL104,CLOTRIMAZOLE,6.7138,6,,n_targets=3
-6,CHEMBL455,SULFACETAMIDE,6.7048,7,,n_targets=0
-7,CHEMBL1282,IMIQUIMOD,6.6173,12,,n_targets=2
-8,CHEMBL2104404,EMODEPSIDE,6.5171,2,,n_targets=0
-9,CHEMBL1440,TETRACYCLINE,6.4927,21,,n_targets=1
-10,CHEMBL1200680,SELENIUM SULFIDE,6.4823,10,,n_targets=0
-11,CHEMBL137,METRONIDAZOLE,6.4262,17,,n_targets=0
-12,CHEMBL1331216,HYOSCYAMINE,6.3423,3,,n_targets=4
-13,CHEMBL32,MOXIFLOXACIN,6.2747,26,,n_targets=1
-14,CHEMBL242948,CARNOSINE,6.1970,2,,n_targets=0
-15,CHEMBL91,MICONAZOLE,6.1178,5,,n_targets=24
-16,CHEMBL529,AZITHROMYCIN,6.1151,39,,n_targets=1
-17,CHEMBL1741,CLARITHROMYCIN,6.0818,21,,n_targets=1
-18,CHEMBL1483,ALBENDAZOLE,6.0388,8,,n_targets=2
-19,CHEMBL333826,DEQUALINIUM,6.0062,1,,n_targets=3
-20,CHEMBL1220,TINIDAZOLE,5.8555,6,,n_targets=0
-21,CHEMBL614,PYRAZINAMIDE,5.8506,2,,n_targets=0
-22,CHEMBL157101,KETOCONAZOLE,5.8019,9,,n_targets=6
-23,CHEMBL106,FLUCONAZOLE,5.7797,6,,n_targets=0
-24,CHEMBL777,CLAVULANIC ACID,5.7155,20,,n_targets=0
-25,CHEMBL720,BENZYL ALCOHOL,5.7142,2,,n_targets=0
-26,CHEMBL3184512,CLINDAMYCIN PHOSPHATE,5.6962,10,,n_targets=0
-27,CHEMBL1525,PERMETHRIN,5.6773,2,,n_targets=3
-28,CHEMBL1747,TOBRAMYCIN,5.6487,16,,n_targets=0
-29,CHEMBL9,NORFLOXACIN,5.6060,22,,n_targets=1
-30,CHEMBL256087,MENTHOL,5.4949,13,,n_targets=2
-31,CHEMBL374975,FUSIDIC ACID,5.4922,31,,n_targets=0
-32,CHEMBL517712,ATROPINE,5.4643,7,,n_targets=8
-33,CHEMBL532,ERYTHROMYCIN,5.4424,18,,n_targets=1
-34,CHEMBL1201304,INDOCYANINE GREEN ACID FORM,5.4388,3,,n_targets=0
-35,CHEMBL290106,BITHIONOL,5.4143,2,,n_targets=0
-36,CHEMBL1043,DAPSONE,5.3832,13,,n_targets=0
-37,CHEMBL1082,AMOXICILLIN,5.2918,34,,n_targets=0
-38,CHEMBL182,GANCICLOVIR,5.2390,4,,n_targets=0
-39,CHEMBL1434,MINOCYCLINE,5.2250,32,,n_targets=20
-40,CHEMBL1197564,NORKETOTIFEN,5.2053,1,,n_targets=0
-41,CHEMBL600,ACETYLCYSTEINE,5.1850,32,trial-stage,n_targets=10
-42,CHEMBL1646,INDOCYANINE GREEN,5.1465,3,,n_targets=0
-43,CHEMBL498847,SECNIDAZOLE,5.1431,3,,n_targets=0
-44,CHEMBL8,CIPROFLOXACIN,5.1323,23,,n_targets=2
-45,CHEMBL990,BUTENAFINE,5.1234,4,,n_targets=1
-46,CHEMBL1200928,ZINC ACETATE ANHYDROUS,5.1204,4,,n_targets=117
-47,CHEMBL1433,DOXYCYCLINE ANHYDROUS,5.1117,30,,n_targets=4
-48,CHEMBL430,GEMIFLOXACIN,5.1011,5,,n_targets=0
-49,CHEMBL139,DICLOFENAC,5.0720,20,,n_targets=2
-50,CHEMBL370143,PAROMOMYCIN,5.0703,2,,n_targets=0
-51,CHEMBL44884,ETHAMBUTOL,5.0593,5,,n_targets=0
-52,CHEMBL986,RETINOL,5.0428,8,,n_targets=7
-53,CHEMBL1397,POSACONAZOLE,5.0364,4,,n_targets=0
-54,CHEMBL1292,CLOFAZIMINE,5.0352,3,,n_targets=0
-55,CHEMBL1003,CLAVULANATE POTASSIUM,5.0321,7,,n_targets=0
-56,CHEMBL1229,OSELTAMIVIR,4.9923,4,,n_targets=1
-57,CHEMBL267345,AMPHOTERICIN B,4.9731,17,,n_targets=0
-58,CHEMBL4297088,CHLORHEXIDINE GLUCONATE,4.9345,7,,n_targets=0
-59,CHEMBL110,BENZNIDAZOLE,4.9209,1,,n_targets=0
-60,CHEMBL534,KETOTIFEN,4.9077,7,,n_targets=2
-61,CHEMBL1371937,PANTHENOL,4.8743,3,,n_targets=0
-62,CHEMBL174,AMPICILLIN,4.8648,16,,n_targets=1
-63,CHEMBL184618,FRAMYCETIN,4.8625,2,,n_targets=1
-64,CHEMBL1384,KANAMYCIN,4.8481,5,,n_targets=0
-65,CHEMBL808,ECONAZOLE,4.8421,1,,n_targets=1
-66,CHEMBL1198,PRAMOXINE,4.8341,6,,n_targets=10
-67,CHEMBL3989954,ROSIPTOR,4.8084,3,,n_targets=1
-68,CHEMBL42336,METHIONINE,4.7987,5,,n_targets=4
-69,CHEMBL1788385,TILBROQUINOL,4.7609,1,,n_targets=0
-70,CHEMBL126,LINEZOLID,4.7506,12,,n_targets=0
-71,CHEMBL1200391,TROMETHAMINE,4.7467,4,,n_targets=1
-72,CHEMBL443,SULFAMETHOXAZOLE,4.7352,15,,n_targets=0
-73,CHEMBL374478,RIFAMPIN,4.6946,6,,n_targets=1
-74,CHEMBL294199,CAPSAICIN,4.6882,12,,n_targets=1
-75,CHEMBL1330792,ACETARSONE,4.6869,2,,n_targets=0
-76,CHEMBL33,LEVOFLOXACIN ANHYDROUS,4.6741,25,,n_targets=0
-77,CHEMBL1255800,FIDAXOMICIN,4.6611,2,,n_targets=0
-78,CHEMBL161,CEFTRIAXONE,4.6286,17,,n_targets=0
-79,CHEMBL1517,OXYTETRACYCLINE,4.6153,13,,n_targets=0
-80,CHEMBL1136,TELITHROMYCIN,4.5954,8,,n_targets=0
-81,CHEMBL437765,RIFAMYCIN,4.5631,2,,n_targets=0
-82,CHEMBL29,PENICILLIN G,4.5595,12,,n_targets=0
-83,CHEMBL790,CHLORHEXIDINE,4.5478,5,,n_targets=0
-84,CHEMBL4,OFLOXACIN,4.5440,28,,n_targets=1
-85,CHEMBL4069597,PRITELIVIR,4.4811,2,,n_targets=0
-86,CHEMBL514800,APREMILAST,4.4785,15,,n_targets=4
-87,CHEMBL1617,RIFAXIMIN,4.4588,8,,n_targets=1
-88,CHEMBL86754,IODOQUINOL,4.4554,4,,n_targets=0
-89,CHEMBL869,NITROFURAZONE,4.4423,3,,n_targets=0
-90,CHEMBL2079130,VONOPRAZAN,4.4189,4,,n_targets=2
-91,CHEMBL36,PYRIMETHAMINE,4.4074,11,,n_targets=2
-92,CHEMBL685,MEBENDAZOLE,4.3928,3,,n_targets=2
-93,CHEMBL1556,INOSINE,4.3811,6,,n_targets=1
-94,CHEMBL224325,CHLORQUINALDOL,4.3714,1,,n_targets=0
-95,CHEMBL1466172,METRONIDAZOLE BENZOATE,4.3638,1,,n_targets=0
-96,CHEMBL3317856,GEPOTIDACIN,4.3393,2,,n_targets=0
-97,CHEMBL1590,PSEUDOEPHEDRINE,4.3291,11,,n_targets=13
-98,CHEMBL1201313,CHLOPHEDIANOL,4.3177,3,,n_targets=1
-99,CHEMBL55,PENTAMIDINE,4.3005,6,,n_targets=1
-100,CHEMBL44354,CEFTAZIDIME,4.2937,12,,n_targets=0
+1,CHEMBL137,METRONIDAZOLE,6.0671,17,,"n_targets=0 | disease_bridge=obsolete_pneumonia(7g), obsolete_blood coagulati(7g)"
+2,CHEMBL1282,IMIQUIMOD,6.0461,12,,"n_targets=2 | pathways(32)=TLR7->Potential therapeutics for S<-CYSLTR1; TLR7->Potential therapeutics for S<-IL1R1 | disease_bridge=obsolete_melanoma(3g), obsolete_cutaneous melan(3g)"
+3,CHEMBL1440,TETRACYCLINE,5.7583,21,,"n_targets=1 | disease_bridge=obsolete_pneumonia(7g), obsolete_blood coagulati(7g)"
+4,CHEMBL112,ACETAMINOPHEN,5.7454,23,,"n_targets=5 | shared_genes=PTGS2 | pathways(28)=PTGES3->Potential therapeutics for S<-CYSLTR1; PTGES3->Potential therapeutics for S<-IL1R1 | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_allergic rhinit(5g)"
+5,CHEMBL493287,GLUCOSAMINE,5.7379,3,,"n_targets=4 | shared_genes=IFNG,MMP9,TNF | pathways(78)=IFNG->IFNG signaling activates MAP<-IFNG; IFNG->IFNG signaling activates MAP<-MAPK1 | disease_bridge=obsolete_irritable bowel(5g), sarcoidosis(4g)"
+6,CHEMBL139,DICLOFENAC,5.6911,20,,"n_targets=2 | shared_genes=PTGS2 | pathways(23)=PTGS2->Interleukin-10 signaling<-CSF2; PTGS2->Interleukin-10 signaling<-CXCL10 | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_blood coagulati(7g)"
+7,CHEMBL294199,CAPSAICIN,5.6726,12,,"n_targets=1 | disease_bridge=obsolete_blood coagulati(7g), obsolete_myocardial infa(6g)"
+8,CHEMBL1433,DOXYCYCLINE ANHYDROUS,5.6660,31,,"n_targets=4 | pathways(77)=MMP1->Activation of Matrix Metallo<-CMA1; MMP1->Activation of Matrix Metallo<-MMP3 | disease_bridge=obsolete_pneumonia(7g), obsolete_myocardial infa(6g)"
+9,CHEMBL184,ACYCLOVIR,5.6596,11,,"n_targets=0 | disease_bridge=obsolete_peripheral vasc(6g), obsolete_myocardial infa(6g)"
+10,CHEMBL606,MISOPROSTOL,5.5691,14,,"n_targets=4 | pathways(10)=PTGER1->G alpha (q) signalling event<-ANXA1; PTGER1->G alpha (q) signalling event<-CYSLTR1 | disease_bridge=obsolete_blood coagulati(7g), obsolete_myocardial infa(6g)"
+11,CHEMBL3989740,DOXYCYCLINE HYCLATE,5.5614,8,,"n_targets=4 | pathways(77)=MMP1->Activation of Matrix Metallo<-CMA1; MMP1->Activation of Matrix Metallo<-MMP3 | disease_bridge=obsolete_age-related mac(5g), hereditary hemorrhagic t(2g)"
+12,CHEMBL1434,MINOCYCLINE,5.5338,32,,"n_targets=20 | shared_genes=IL1B,MAPK1,MMP9,NOS2 | pathways(236)=ALOX5->Interleukin-4 and Interleuki<-ANXA1; ALOX5->Interleukin-4 and Interleuki<-FASLG | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_pneumonia(7g)"
+13,CHEMBL1200928,ZINC ACETATE ANHYDROUS,5.5220,4,,"n_targets=117 | shared_genes=C5,MMP9 | pathways(658)=A2M->Degradation of the extracell<-MMP3; A2M->Degradation of the extracell<-MMP9 | disease_bridge=obsolete_pneumonia(7g), porphyrin metabolism dis(1g)"
+14,CHEMBL9967,PIRENZEPINE,5.3853,2,,"n_targets=1 | pathways(2)=CHRM1->G alpha (q) signalling event<-ANXA1; CHRM1->G alpha (q) signalling event<-CYSLTR1 | disease_bridge=obsolete_gastroesophagea(3g), peptic ulcer disease(1g)"
+15,CHEMBL4297088,CHLORHEXIDINE GLUCONATE,5.3378,7,,"n_targets=0 | disease_bridge=obsolete_pneumonia(7g), cystic fibrosis(3g)"
+16,CHEMBL1349,VALACYCLOVIR,5.3338,6,,"n_targets=0 | disease_bridge=obsolete_glioblastoma mu(5g), schizophrenia(2g)"
+17,CHEMBL521,IBUPROFEN,5.2128,20,,"n_targets=10 | shared_genes=GP1BA,PTGS2 | pathways(67)=BCL2->Interleukin-4 and Interleuki<-ANXA1; BCL2->Interleukin-4 and Interleuki<-FASLG | disease_bridge=obsolete_vasculitis(8g), obsolete_rheumatoid arth(7g)"
+18,CHEMBL256087,MENTHOL,5.2068,13,,"n_targets=2 | disease_bridge=osteoarthritis(2g), obsolete_hypertension(2g)"
+19,CHEMBL2079130,VONOPRAZAN,5.1761,4,,"n_targets=2 | disease_bridge=obsolete_gastroesophagea(3g), obsolete_duodenal ulcer(1g)"
+20,CHEMBL1401,NITAZOXANIDE,5.1232,10,,"n_targets=0 | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_severe acute re(4g)"
+21,CHEMBL1059,PREGABALIN,5.0892,15,,"n_targets=26 | disease_bridge=obsolete_irritable bowel(5g), obsolete_bone fracture(3g)"
+22,CHEMBL596,FENTANYL,4.9891,14,,"n_targets=3 | pathways(54)=OPRD1->G alpha (i) signalling event<-ANXA1; OPRD1->G alpha (i) signalling event<-C5 | disease_bridge=obsolete_irritable bowel(5g), obsolete_scoliosis(4g)"
+23,CHEMBL790,CHLORHEXIDINE,4.9759,5,,"n_targets=0 | disease_bridge=obsolete_pneumonia(7g), cystic fibrosis(3g)"
+24,CHEMBL1140,NIACINAMIDE,4.9251,8,,"n_targets=4 | pathways(16)=BST1->Neutrophil degranulation<-C5AR1; BST1->Neutrophil degranulation<-CD14 | disease_bridge=obsolete_blood coagulati(7g), obsolete_psoriasis(6g)"
+25,CHEMBL1201304,INDOCYANINE GREEN ACID FORM,4.9191,3,,"n_targets=0 | disease_bridge=gastric cancer(2g), periodontal disorder(1g)"
+26,CHEMBL455,SULFACETAMIDE,4.9072,7,,"n_targets=0 | disease_bridge=abnormal inflammatory re(7g), obsolete_coronary artery(6g)"
+27,CHEMBL1331216,HYOSCYAMINE,4.8476,3,,"n_targets=4 | pathways(20)=CHRM1->G alpha (q) signalling event<-ANXA1; CHRM1->G alpha (q) signalling event<-CYSLTR1 | disease_bridge=obsolete_blood coagulati(7g), obsolete_coronary artery(6g)"
+28,CHEMBL1503,OMEPRAZOLE,4.7753,11,,"n_targets=3 | disease_bridge=obsolete_oral squamous c(5g), obsolete_head and neck s(4g)"
+29,CHEMBL2103838,DILMAPIMOD,4.7650,5,,"n_targets=4 | shared_genes=IL1B,IL6,TNF | pathways(96)=IL1B->Interleukin-10 signaling<-CSF2; IL1B->Interleukin-10 signaling<-CXCL10 | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_coronary artery(6g)"
+30,CHEMBL480,LANSOPRAZOLE,4.7622,9,,"n_targets=3 | disease_bridge=obsolete_blood coagulati(7g), obsolete_myocardial infa(6g)"
+31,CHEMBL1697771,REBAMIPIDE,4.7352,8,,"n_targets=0 | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_head and neck m(4g)"
+32,CHEMBL1790041,RANITIDINE,4.7329,10,,"n_targets=1 | disease_bridge=obsolete_renal cell carc(3g), obsolete_gastroesophagea(3g)"
+33,CHEMBL1149,LEVOCARNITINE,4.7294,9,,"n_targets=7 | pathways(16)=MPO->Neutrophil degranulation<-C5AR1; MPO->Neutrophil degranulation<-CD14 | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_blood coagulati(7g)"
+34,CHEMBL267345,AMPHOTERICIN B,4.7291,17,,"n_targets=0 | disease_bridge=obsolete_pneumonia(7g), cholangitis(5g)"
+35,CHEMBL154,NAPROXEN,4.7260,11,,"n_targets=2 | shared_genes=PTGS2 | pathways(23)=PTGS2->Interleukin-10 signaling<-CSF2; PTGS2->Interleukin-10 signaling<-CXCL10 | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_blood coagulati(7g)"
+36,CHEMBL600,ACETYLCYSTEINE,4.7045,32,trial-stage,"n_targets=10 | pathways(38)=CHUK->FCERI mediated NF-kB activat<-NFKB1; CHUK->FCERI mediated NF-kB activat<-PSMD1 | disease_bridge=obsolete_acute myocardia(8g), obsolete_myocardial infa(6g)"
+37,CHEMBL1741,CLARITHROMYCIN,4.6765,21,,"n_targets=1 | disease_bridge=obsolete_pneumonia(7g), obsolete_osteoporosis(3g)"
+38,CHEMBL529,AZITHROMYCIN,4.6532,39,,"n_targets=1 | disease_bridge=obsolete_pneumonia(7g), abnormal inflammatory re(7g)"
+39,CHEMBL114551,GW-274150,4.5939,2,,"n_targets=1 | shared_genes=NOS2 | pathways(15)=NOS2->Interleukin-4 and Interleuki<-ANXA1; NOS2->Interleukin-4 and Interleuki<-FASLG | disease_bridge=obsolete_rheumatoid arth(7g), migraine disorder(1g)"
+40,CHEMBL372795,STREPTOMYCIN,4.5837,10,,"n_targets=1 | disease_bridge=obsolete_pneumonia(7g), obsolete_urinary tract i(1g)"
+41,CHEMBL70,MORPHINE,4.5561,14,,"n_targets=4 | pathways(83)=LY96->Activation of IRF3, IRF7 med<-CD14; LY96->Activation of IRF3, IRF7 med<-PTPN11 | disease_bridge=obsolete_acute myocardia(8g), obsolete_blood coagulati(7g)"
+42,CHEMBL880,FAMCICLOVIR,4.5507,7,,n_targets=0 | disease_bridge=multiple sclerosis(2g)
+43,CHEMBL1198,PRAMOXINE,4.5308,6,,"n_targets=10 | disease_bridge=abnormal inflammatory re(7g), obsolete_peripheral vasc(6g)"
+44,CHEMBL25,ASPIRIN,4.5297,56,,"n_targets=27 | shared_genes=MAPK1,PRKAA1,PRKAA2,PRKAB1 | pathways(190)=CASP3->Degradation of the extracell<-MMP3; CASP3->Degradation of the extracell<-MMP9 | disease_bridge=obsolete_hypertrophic ca(8g), obsolete_acute myocardia(8g)"
+45,CHEMBL2111286,RANITIDINE BISMUTH CITRATE,4.4759,2,,"n_targets=1 | disease_bridge=obsolete_gastroesophagea(3g), obsolete_Helicobacter py(1g)"
+46,CHEMBL108545,METHYL SALICYLATE,4.4614,3,,"n_targets=0 | disease_bridge=obsolete_blood coagulati(7g), obsolete_gastroesophagea(3g)"
+47,CHEMBL720,BENZYL ALCOHOL,4.4510,2,,"n_targets=0 | disease_bridge=coronary atherosclerosis(6g), obsolete_hypertension(2g)"
+48,CHEMBL469448,D-MANNOSE,4.4230,1,,n_targets=0 | disease_bridge=obsolete_urinary tract i(1g)
+49,CHEMBL1089221,BENDAZAC,4.3974,1,,n_targets=3 | shared_genes=PTGS2 | pathways(23)=PTGS2->Interleukin-10 signaling<-CSF2; PTGS2->Interleukin-10 signaling<-CXCL10
+50,CHEMBL3184512,CLINDAMYCIN PHOSPHATE,4.3841,10,,"n_targets=0 | disease_bridge=obsolete_pneumonia(7g), obsolete_irritable bowel(5g)"
+51,CHEMBL517712,ATROPINE,4.3537,7,,"n_targets=8 | pathways(22)=CHRM1->G alpha (q) signalling event<-ANXA1; CHRM1->G alpha (q) signalling event<-CYSLTR1 | disease_bridge=obsolete_blood coagulati(7g), obsolete_allergic rhinit(5g)"
+52,CHEMBL438497,NICOTINAMIDE RIBOSIDE,4.3520,5,,"n_targets=0 | disease_bridge=obsolete_peripheral arte(3g), premature birth(1g)"
+53,CHEMBL498847,SECNIDAZOLE,4.3508,3,,n_targets=0
+54,CHEMBL93645,ACECLOFENAC,4.3469,3,,"n_targets=2 | shared_genes=PTGS2 | pathways(23)=PTGS2->Interleukin-10 signaling<-CSF2; PTGS2->Interleukin-10 signaling<-CXCL10 | disease_bridge=obsolete_rheumatoid arth(7g), osteoarthritis(2g)"
+55,CHEMBL313971,ZUCAPSAICIN,4.2585,2,,"n_targets=1 | disease_bridge=obsolete_osteoarthritis,(3g)"
+56,CHEMBL2106370,ILAPRAZOLE,4.2512,3,,"n_targets=2 | disease_bridge=obsolete_gastroesophagea(3g), peptic ulcer disease(1g)"
+57,CHEMBL1220,TINIDAZOLE,4.2498,6,,"n_targets=0 | disease_bridge=gastric cancer(2g), obsolete_Helicobacter py(1g)"
+58,CHEMBL1536,ERGOCALCIFEROL,4.2461,31,,"n_targets=27 | shared_genes=VDR | pathways(2)=VDR->Nuclear Receptor transcripti<-VDR; VDR->SUMOylation of intracellular<-VDR | disease_bridge=obsolete_blood coagulati(7g), obsolete_Myocardial Isch(5g)"
+59,CHEMBL1256391,PIRFENIDONE,4.2065,4,,"n_targets=0 | disease_bridge=obsolete_hypertrophic ca(8g), obsolete_pneumonia(7g)"
+60,CHEMBL532,ERYTHROMYCIN,4.1727,17,,"n_targets=1 | disease_bridge=obsolete_pneumonia(7g), dermatitis(4g)"
+61,CHEMBL1622,FOLIC ACID,4.1597,15,,"n_targets=3 | pathways(16)=FOLR3->Neutrophil degranulation<-C5AR1; FOLR3->Neutrophil degranulation<-CD14 | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_atherosclerosis(7g)"
+62,CHEMBL4297583,TEGOPRAZAN,4.1493,3,,"n_targets=2 | disease_bridge=obsolete_gastroesophagea(3g), obsolete_duodenal ulcer(1g)"
+63,CHEMBL3183075,NIZATIDINE,4.1468,4,,"n_targets=1 | disease_bridge=obsolete_gastroesophagea(3g), gastric cancer(2g)"
+64,CHEMBL986,RETINOL,4.1417,8,,"n_targets=7 | disease_bridge=sarcoidosis(4g), obsolete_gastroenteritis(4g)"
+65,CHEMBL877,TRANEXAMIC ACID,4.1252,21,,"n_targets=1 | shared_genes=PLG | pathways(8)=PLG->Activation of Matrix Metallo<-CMA1; PLG->Activation of Matrix Metallo<-MMP3 | disease_bridge=obsolete_blood coagulati(7g), abnormal inflammatory re(7g)"
+66,CHEMBL571,KETOPROFEN,4.0849,10,,"n_targets=3 | shared_genes=PTGS2 | pathways(47)=CXCR1->G alpha (i) signalling event<-ANXA1; CXCR1->G alpha (i) signalling event<-C5 | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_blood coagulati(7g)"
+67,CHEMBL1219,RABEPRAZOLE,4.0833,4,,"n_targets=2 | disease_bridge=obsolete_osteoporosis(3g), obsolete_gastroesophagea(3g)"
+68,CHEMBL165,RESVERATROL,4.0741,9,,"n_targets=24 | shared_genes=ITGB3,MTNR1A,MTNR1B,PTGS2 | pathways(131)=AKT1->Extra-nuclear estrogen signa<-MMP3; AKT1->Extra-nuclear estrogen signa<-MMP9 | disease_bridge=abnormal inflammatory re(7g), obsolete_age-related mac(5g)"
+69,CHEMBL1235535,NICOTINYL ALCOHOL,4.0740,2,,n_targets=0 | disease_bridge=hyperlipidemia(3g)
+70,CHEMBL1200680,SELENIUM SULFIDE,4.0656,10,,"n_targets=0 | disease_bridge=dermatitis(4g), urinary bladder cancer(2g)"
+71,CHEMBL1237124,MECLOCYCLINE,4.0459,14,,"n_targets=0 | disease_bridge=obsolete_pneumonia(7g), cholangitis(5g)"
+72,CHEMBL90,HISTAMINE,4.0427,9,,"n_targets=5 | pathways(10)=HRH1->G alpha (q) signalling event<-ANXA1; HRH1->G alpha (q) signalling event<-CYSLTR1 | disease_bridge=abnormal inflammatory re(7g), coronary atherosclerosis(6g)"
+73,CHEMBL650,METHYLPREDNISOLONE,4.0232,66,,"n_targets=2 | shared_genes=ANXA1 | pathways(32)=ANXA1->G alpha (i) signalling event<-ANXA1; ANXA1->G alpha (i) signalling event<-C5 | disease_bridge=obsolete_vasculitis(8g), obsolete_rheumatoid arth(7g)"
+74,CHEMBL32,MOXIFLOXACIN,4.0161,26,,"n_targets=1 | disease_bridge=obsolete_pneumonia(7g), abnormal inflammatory re(7g)"
+75,CHEMBL870,ALENDRONIC ACID,4.0032,8,,"n_targets=5 | pathways(2)=PTPN4->Toll Like Receptor 4 (TLR4) <-CD14; PTPN4->Toll Like Receptor 4 (TLR4) <-TLR4 | disease_bridge=sarcoidosis(4g), obsolete_osteoporosis(3g)"
+76,CHEMBL106,FLUCONAZOLE,4.0019,6,,"n_targets=0 | disease_bridge=obsolete_HIV infection(2g), premature birth(1g)"
+77,CHEMBL1370,BUDESONIDE,3.9985,15,,"n_targets=2 | shared_genes=ANXA1 | pathways(32)=ANXA1->G alpha (i) signalling event<-ANXA1; ANXA1->G alpha (i) signalling event<-C5 | disease_bridge=obsolete_allergic rhinit(5g), obsolete_severe acute re(4g)"
+78,CHEMBL104,CLOTRIMAZOLE,3.9973,6,,"n_targets=3 | pathways(10)=HCAR2->G alpha (i) signalling event<-ANXA1; HCAR2->G alpha (i) signalling event<-C5 | disease_bridge=obsolete_peripheral vasc(6g), telangiectasis(2g)"
+79,CHEMBL1469,PHENYLBUTANOIC ACID,3.9969,9,,"n_targets=0 | disease_bridge=obsolete_brain neoplasm(3g), obsolete_HIV infection(2g)"
+80,CHEMBL704,MESALAMINE,3.9968,3,,"n_targets=7 | shared_genes=PTGS2 | pathways(99)=ALOX5->Interleukin-4 and Interleuki<-ANXA1; ALOX5->Interleukin-4 and Interleuki<-FASLG | disease_bridge=obsolete_irritable bowel(5g), obsolete_eosinophilic es(1g)"
+81,CHEMBL447878,N-ACETYLGLUCOSAMINE,3.9822,1,,n_targets=0
+82,CHEMBL91,MICONAZOLE,3.9793,5,,"n_targets=24 | shared_genes=KCNN1,NOS2 | pathways(19)=NOS2->Interleukin-4 and Interleuki<-ANXA1; NOS2->Interleukin-4 and Interleuki<-FASLG | disease_bridge=obsolete_HIV infection(2g), fungal infectious diseas(1g)"
+83,CHEMBL573,NIACIN,3.9755,16,,"n_targets=2 | pathways(16)=HCAR2->G alpha (i) signalling event<-ANXA1; HCAR2->G alpha (i) signalling event<-C5 | disease_bridge=obsolete_atherosclerosis(7g), obsolete_myocardial infa(6g)"
+84,CHEMBL940,GABAPENTIN,3.9724,20,,"n_targets=29 | pathways(8)=ADORA1->G alpha (i) signalling event<-ANXA1; ADORA1->G alpha (i) signalling event<-C5 | disease_bridge=obsolete_scoliosis(4g), obsolete_head and neck m(4g)"
+85,CHEMBL42336,METHIONINE,3.9576,5,,"n_targets=4 | disease_bridge=sarcoidosis(4g), obsolete_rhabdomyosarcom(3g)"
+86,CHEMBL4297210,REPROXALAP,3.9358,3,,n_targets=0
+87,CHEMBL1115,PYRIDOSTIGMINE,3.9213,7,,"n_targets=3 | shared_genes=ALB | pathways(1)=ALB->Scavenging of heme from plas<-ALB | disease_bridge=Parkinson disease(4g), obsolete_HIV infection(2g)"
+88,CHEMBL1517,OXYTETRACYCLINE,3.9064,13,,"n_targets=0 | disease_bridge=obsolete_pneumonia(7g), cholangitis(5g)"
+89,CHEMBL1646,INDOCYANINE GREEN,3.8976,3,,"n_targets=0 | disease_bridge=gastric cancer(2g), periodontal disorder(1g)"
+90,CHEMBL1200656,NATAMYCIN,3.8950,3,,"n_targets=0 | disease_bridge=obsolete_keratitis(1g), fungal infectious diseas(1g)"
+91,CHEMBL2103812,GOLOTIMOD,3.8818,2,,"n_targets=4 | shared_genes=TLR2,TLR4,TLR9 | pathways(92)=TLR2->Beta defensins<-TLR2; TLR2->Neutrophil degranulation<-C5AR1 | disease_bridge=obsolete_chronic hepatit(2g)"
+92,CHEMBL416146,ETORICOXIB,3.8787,5,,"n_targets=1 | shared_genes=PTGS2 | pathways(23)=PTGS2->Interleukin-10 signaling<-CSF2; PTGS2->Interleukin-10 signaling<-CXCL10 | disease_bridge=obsolete_rheumatoid arth(7g), obsolete_osteoarthritis,(3g)"
+93,CHEMBL485,CODEINE,3.8717,7,,"n_targets=3 | pathways(54)=OPRD1->G alpha (i) signalling event<-ANXA1; OPRD1->G alpha (i) signalling event<-C5 | disease_bridge=obsolete_blood coagulati(7g), obsolete_myocardial infa(6g)"
+94,CHEMBL12610,BENZYDAMINE,3.8629,2,,n_targets=2 | shared_genes=PTGS2 | pathways(23)=PTGS2->Interleukin-10 signaling<-CSF2; PTGS2->Interleukin-10 signaling<-CXCL10
+95,CHEMBL1064,SIMVASTATIN,3.8571,32,,"n_targets=3 | shared_genes=HMGCR | pathways(31)=HDAC2->Factors involved in megakary<-IFNA1; HDAC2->Factors involved in megakary<-IFNA17 | disease_bridge=obsolete_acute myocardia(8g), obsolete_pneumonia(7g)"
+96,CHEMBL1591,DEMECLOCYCLINE,3.8460,11,,"n_targets=1 | disease_bridge=obsolete_pneumonia(7g), cholangitis(5g)"
+97,CHEMBL2159122,ELUXADOLINE,3.8460,2,,n_targets=3 | pathways(54)=OPRD1->G alpha (i) signalling event<-ANXA1; OPRD1->G alpha (i) signalling event<-C5 | disease_bridge=obsolete_irritable bowel(5g)
+98,CHEMBL1540,PENCICLOVIR,3.8322,1,,n_targets=0
+99,CHEMBL240597,CHENODIOL,3.8179,1,,"n_targets=4 | pathways(4)=NR1H4->Nuclear Receptor transcripti<-VDR; NR1H4->SUMOylation of intracellular<-VDR | disease_bridge=obsolete_irritable bowel(5g), obsolete_primary biliary(1g)"
+100,CHEMBL90593,PRASTERONE,3.8120,10,,"n_targets=30 | pathways(33)=AR->Nuclear Receptor transcripti<-VDR; AR->SUMOylation of intracellular<-VDR | disease_bridge=obsolete_rheumatoid arth(7g), systemic lupus erythemat(2g)"

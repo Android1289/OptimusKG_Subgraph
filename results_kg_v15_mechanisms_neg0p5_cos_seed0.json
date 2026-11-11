@@ -22,178 +22,178 @@
   },
   "validation": {
     "gnn": {
-      "n": 782,
-      "MRR": 0.14801727694363467,
-      "H@10": 0.27621483375959077,
-      "H@50": 0.5281329923273658,
-      "H@100": 0.6265984654731458,
-      "median_rank": 42.0,
-      "n_candidates": 6187
+      "n": 781,
+      "MRR": 0.1512461790874076,
+      "H@10": 0.2599231754161332,
+      "H@50": 0.48655569782330343,
+      "H@100": 0.5761843790012804,
+      "median_rank": 53.0,
+      "n_candidates": 6186
     },
     "popularity": {
-      "n": 782,
-      "MRR": 0.03880127650967232,
-      "H@10": 0.06649616368286446,
-      "H@50": 0.16240409207161124,
-      "H@100": 0.20588235294117646,
-      "median_rank": 636.25,
-      "n_candidates": 6187
+      "n": 781,
+      "MRR": 0.04200547601705704,
+      "H@10": 0.07170294494238157,
+      "H@50": 0.14980793854033292,
+      "H@100": 0.20102432778489115,
+      "median_rank": 625.0,
+      "n_candidates": 6186
     }
   },
   "test": {
     "Cutaneous Leishmaniasis | strict (INDICATION/OFF_LABEL)": {
       "gnn": {
         "n": 2,
-        "MRR": 0.01965093729799612,
+        "MRR": 0.006946416737669222,
         "H@10": 0.0,
-        "H@50": 0.5,
+        "H@50": 0.0,
         "H@100": 0.5,
-        "median_rank": 608.0,
-        "n_candidates": 6187
+        "median_rank": 293.5,
+        "n_candidates": 6186
       },
       "popularity": {
         "n": 2,
-        "MRR": 0.0031017195535770216,
+        "MRR": 0.003110499837127656,
         "H@10": 0.0,
         "H@50": 0.0,
         "H@100": 0.0,
-        "median_rank": 1077.0,
-        "n_candidates": 6187
+        "median_rank": 1074.25,
+        "n_candidates": 6186
       }
     },
     "Cutaneous Leishmaniasis | trial-stage": {
       "gnn": {
         "n": 19,
-        "MRR": 0.008111133842653027,
+        "MRR": 0.002718929895605989,
         "H@10": 0.0,
-        "H@50": 0.15789473684210525,
-        "H@100": 0.15789473684210525,
-        "median_rank": 389.0,
-        "n_candidates": 6187
+        "H@50": 0.0,
+        "H@100": 0.05263157894736842,
+        "median_rank": 528.0,
+        "n_candidates": 6186
       },
       "popularity": {
         "n": 19,
-        "MRR": 0.00953702538663652,
+        "MRR": 0.009410877812858525,
         "H@10": 0.0,
         "H@50": 0.21052631578947367,
         "H@100": 0.3157894736842105,
-        "median_rank": 637.0,
-        "n_candidates": 6187
+        "median_rank": 634.5,
+        "n_candidates": 6186
       }
     },
     "Cutaneous Leishmaniasis | literature candidates": {
       "gnn": {
         "n": 5,
-        "MRR": 0.0042538488309311175,
+        "MRR": 0.004158172032816416,
         "H@10": 0.0,
         "H@50": 0.0,
         "H@100": 0.0,
-        "median_rank": 224.0,
-        "n_candidates": 6187
+        "median_rank": 276.0,
+        "n_candidates": 6186
       },
       "popularity": {
         "n": 5,
-        "MRR": 0.10585087613198578,
+        "MRR": 0.10590027018852169,
         "H@10": 0.2,
         "H@50": 0.4,
         "H@100": 0.4,
-        "median_rank": 269.5,
-        "n_candidates": 6187
+        "median_rank": 272.0,
+        "n_candidates": 6186
       }
     },
     "Tuberculosis | strict (INDICATION/OFF_LABEL)": {
       "gnn": {
         "n": 58,
-        "MRR": 0.013349446971857325,
-        "H@10": 0.034482758620689655,
-        "H@50": 0.10344827586206896,
+        "MRR": 0.015994004935552742,
+        "H@10": 0.06896551724137931,
+        "H@50": 0.1206896551724138,
         "H@100": 0.1896551724137931,
-        "median_rank": 346.5,
-        "n_candidates": 6187
+        "median_rank": 491.0,
+        "n_candidates": 6186
       },
       "popularity": {
         "n": 58,
-        "MRR": 0.06103882572471958,
+        "MRR": 0.06074761059663842,
         "H@10": 0.06896551724137931,
         "H@50": 0.22413793103448276,
         "H@100": 0.27586206896551724,
-        "median_rank": 741.0,
-        "n_candidates": 6187
+        "median_rank": 745.0,
+        "n_candidates": 6186
       }
     },
     "Tuberculosis | trial-stage": {
       "gnn": {
         "n": 61,
-        "MRR": 0.02510382342481181,
-        "H@10": 0.06557377049180328,
-        "H@50": 0.19672131147540983,
+        "MRR": 0.024569222146374557,
+        "H@10": 0.04918032786885246,
+        "H@50": 0.21311475409836064,
         "H@100": 0.2786885245901639,
-        "median_rank": 270.0,
-        "n_candidates": 6187
+        "median_rank": 275.0,
+        "n_candidates": 6186
       },
       "popularity": {
         "n": 61,
-        "MRR": 0.05432443445209897,
+        "MRR": 0.053655185277508996,
         "H@10": 0.09836065573770492,
         "H@50": 0.21311475409836064,
         "H@100": 0.3114754098360656,
-        "median_rank": 368.5,
-        "n_candidates": 6187
+        "median_rank": 364.5,
+        "n_candidates": 6186
       }
     },
     "Dengue | trial-stage": {
       "gnn": {
         "n": 13,
-        "MRR": 0.002662448055239691,
+        "MRR": 0.0028851442068663336,
         "H@10": 0.0,
         "H@50": 0.07692307692307693,
         "H@100": 0.07692307692307693,
-        "median_rank": 1133.0,
-        "n_candidates": 6187
+        "median_rank": 1358.0,
+        "n_candidates": 6186
       },
       "popularity": {
         "n": 13,
-        "MRR": 0.003788848584315126,
+        "MRR": 0.0036885731619279065,
         "H@10": 0.0,
         "H@50": 0.07692307692307693,
         "H@100": 0.07692307692307693,
-        "median_rank": 1400.5,
-        "n_candidates": 6187
+        "median_rank": 1398.0,
+        "n_candidates": 6186
       }
     },
     "Dengue | literature candidates": {
       "gnn": {
         "n": 6,
-        "MRR": 0.0017213495991837211,
+        "MRR": 0.0038028040114815864,
         "H@10": 0.0,
         "H@50": 0.0,
         "H@100": 0.0,
-        "median_rank": 718.0,
-        "n_candidates": 6187
+        "median_rank": 320.0,
+        "n_candidates": 6186
       },
       "popularity": {
         "n": 6,
-        "MRR": 0.22386004566802079,
+        "MRR": 0.22386750824976923,
         "H@10": 0.3333333333333333,
         "H@50": 0.3333333333333333,
         "H@100": 0.3333333333333333,
-        "median_rank": 297.25,
-        "n_candidates": 6187
+        "median_rank": 295.0,
+        "n_candidates": 6186
       }
     }
   },
   "degree_score_correlation": {
     "Cutaneous Leishmaniasis": {
-      "pearson_r": 0.3951,
-      "spearman_rho": 0.4976
+      "pearson_r": 0.3717,
+      "spearman_rho": 0.489
     },
     "Tuberculosis": {
-      "pearson_r": 0.4528,
-      "spearman_rho": 0.6291
+      "pearson_r": 0.4806,
+      "spearman_rho": 0.6878
     },
     "Dengue": {
-      "pearson_r": 0.3025,
-      "spearman_rho": 0.3859
+      "pearson_r": 0.3625,
+      "spearman_rho": 0.4901
     }
   },
   "family": [

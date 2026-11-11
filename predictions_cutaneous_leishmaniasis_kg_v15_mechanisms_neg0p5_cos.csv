@@ -1,101 +1,101 @@
 rank,drug_id,drug_name,score,train_deg,already_known_as,mechanism_summary
-1,CHEMBL1229,OSELTAMIVIR,6.7480,4,,"n_targets=1 | disease_bridge=obsolete_pneumonia(4g), obsolete_autoimmune thro(1g)"
-2,CHEMBL1454,LEVAMISOLE,6.0301,3,,n_targets=2
-3,CHEMBL32,MOXIFLOXACIN,5.6204,26,,"n_targets=1 | disease_bridge=obsolete_pneumonia(4g), graft versus host diseas(3g)"
-4,CHEMBL4297503,BALOXAVIR MARBOXIL,5.6191,2,,n_targets=0 | disease_bridge=obsolete_pneumonia(4g)
-5,CHEMBL777,CLAVULANIC ACID,5.5373,20,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), obsolete_head and neck m(1g)"
-6,CHEMBL1082,AMOXICILLIN,5.3346,34,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), obsolete_osteoporosis(3g)"
-7,CHEMBL501122,CEFTAROLINE FOSAMIL,5.1688,5,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), obsolete_chronic kidney (1g)"
-8,CHEMBL4650326,TEREVALEFIM,5.1388,1,,n_targets=1 | pathways(2)=MET->RAF/MAP kinase cascade<-CSF2RA; MET->RAF/MAP kinase cascade<-FYN
-9,CHEMBL38,TRETINOIN,5.1008,7,,"n_targets=15 | disease_bridge=myeloproliferative disor(6g), obsolete_osteoporosis(3g)"
-10,CHEMBL4297529,RISUTEGANIB,5.0434,1,,n_targets=0
-11,CHEMBL501259,ERITORAN,5.0174,3,,n_targets=2 | pathways(4)=LY96->RSV-host interactions<-TLR7; LY96->Regulation of TLR by endogen<-TLR7 | disease_bridge=obsolete_pneumonia(4g)
-12,CHEMBL1435,CEFAZOLIN,4.9840,13,,"n_targets=3 | pathways(3)=IL2->Interleukin receptor SHC sig<-CSF2RA; IL2->RAF/MAP kinase cascade<-CSF2RA | disease_bridge=prostate cancer(1g), obsolete_blood coagulati(1g)"
-13,CHEMBL847,OXAMNIQUINE,4.9346,2,,n_targets=0
-14,CHEMBL126,LINEZOLID,4.9295,12,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), obsolete_hypertension(2g)"
-15,CHEMBL131,PREDNISOLONE,4.9279,77,,"n_targets=1 | pathways(41)=NR3C1->Potential therapeutics for S<-IGHV1-2; NR3C1->Potential therapeutics for S<-IGHV1-46 | disease_bridge=obsolete_pneumonia(4g), acute lymphoblastic leuk(4g)"
-16,CHEMBL4297215,BALOXAVIR,4.8840,1,,n_targets=0
-17,CHEMBL297453,EPIGALOCATECHIN GALLATE,4.8810,3,,"n_targets=3 | disease_bridge=systemic lupus erythemat(2g), brain injury(2g)"
-18,CHEMBL33,LEVOFLOXACIN ANHYDROUS,4.8762,25,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), obsolete_non-Hodgkins ly(3g)"
-19,CHEMBL600,ACETYLCYSTEINE,4.8422,32,,"n_targets=10 | pathways(88)=CHUK->FCERI mediated NF-kB activat<-IGHV1-2; CHUK->FCERI mediated NF-kB activat<-IGHV1-46 | disease_bridge=graft versus host diseas(3g), systemic lupus erythemat(2g)"
-20,CHEMBL4,OFLOXACIN,4.8195,28,,"n_targets=1 | disease_bridge=obsolete_pneumonia(4g), diabetic foot(2g)"
-21,CHEMBL1282,IMIQUIMOD,4.8075,12,strict,"n_targets=2 | shared_genes=TLR7 | pathways(45)=TLR7->Potential therapeutics for S<-IGHV1-2; TLR7->Potential therapeutics for S<-IGHV1-46 | disease_bridge=obsolete_basal cell carc(3g), graft versus host diseas(3g)"
-22,CHEMBL1293,BETA CAROTENE,4.7830,4,,"n_targets=0 | disease_bridge=obsolete_myocardial infa(2g), obsolete_blood coagulati(1g)"
-23,CHEMBL702,PIPERACILLIN,4.7581,16,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), graft versus host diseas(3g)"
-24,CHEMBL44884,ETHAMBUTOL,4.7436,5,,n_targets=0 | disease_bridge=sarcoidosis(2g)
-25,CHEMBL710,FINASTERIDE,4.7378,8,,"n_targets=3 | disease_bridge=prostate cancer(1g), obsolete_prostate carcin(1g)"
-26,CHEMBL529,AZITHROMYCIN,4.7129,39,trial-stage,"n_targets=1 | disease_bridge=obsolete_respiratory fai(5g), obsolete_pneumonia(4g)"
-27,CHEMBL145,CAFFEIC ACID,4.6965,2,,n_targets=1 | pathways(44)=MIF->Cell surface interactions at<-FYN; MIF->Cell surface interactions at<-IGHV1-2 | disease_bridge=obsolete_autoimmune thro(1g)
-28,CHEMBL174,AMPICILLIN,4.6917,16,,"n_targets=1 | pathways(2)=TEK->RAF/MAP kinase cascade<-CSF2RA; TEK->RAF/MAP kinase cascade<-FYN | disease_bridge=obsolete_pneumonia(4g), cholangitis(1g)"
-29,CHEMBL196,ASCORBIC ACID,4.6644,17,,"n_targets=14 | disease_bridge=obsolete_acute respirato(5g), obsolete_pneumonia(4g)"
-30,CHEMBL8,CIPROFLOXACIN,4.6560,23,trial-stage,"n_targets=2 | disease_bridge=obsolete_pneumonia(4g), neutropenia(2g)"
-31,CHEMBL877,TRANEXAMIC ACID,4.6106,21,,"n_targets=1 | disease_bridge=obsolete_scoliosis(2g), obsolete_myocardial infa(2g)"
-32,CHEMBL384467,DEXAMETHASONE,4.5947,113,,"n_targets=5 | pathways(42)=ANXA1->G alpha (i) signalling event<-SRC; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_Blast Phase Chr(6g), obsolete_acute respirato(5g)"
-33,CHEMBL404,TAZOBACTAM,4.5533,17,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), graft versus host diseas(3g)"
-34,CHEMBL466246,LANINAMIVIR,4.4560,0,,n_targets=0
-35,CHEMBL1741,CLARITHROMYCIN,4.4386,21,,"n_targets=1 | disease_bridge=obsolete_pneumonia(4g), obsolete_osteoporosis(3g)"
-36,CHEMBL1601669,ALFACALCIDOL,4.4263,9,,"n_targets=3 | disease_bridge=obsolete_osteoporosis(3g), obsolete_scoliosis(2g)"
-37,CHEMBL35,FUROSEMIDE,4.4037,15,,"n_targets=3 | disease_bridge=systemic lupus erythemat(2g), obsolete_myocardial infa(2g)"
-38,CHEMBL1197564,NORKETOTIFEN,4.4036,1,,n_targets=0
-39,CHEMBL1753,CLINDAMYCIN,4.3905,8,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), obsolete_pneumocystosis(1g)"
-40,CHEMBL680,CEFACLOR ANHYDROUS,4.3499,7,,n_targets=0 | disease_bridge=obsolete_pneumonia(4g)
-41,CHEMBL1003,CLAVULANATE POTASSIUM,4.3426,7,,n_targets=0 | disease_bridge=obsolete_pneumonia(4g)
-42,CHEMBL1747,TOBRAMYCIN,4.3356,16,,n_targets=0 | disease_bridge=obsolete_pneumonia(4g)
-43,CHEMBL635,PREDNISONE,4.2871,74,,"n_targets=1 | pathways(41)=NR3C1->Potential therapeutics for S<-IGHV1-2; NR3C1->Potential therapeutics for S<-IGHV1-46 | disease_bridge=obsolete_Blast Phase Chr(6g), myeloproliferative disor(6g)"
-44,CHEMBL1472,PROTIRELIN,4.2805,1,,n_targets=1 | disease_bridge=obsolete_acute respirato(5g)
-45,CHEMBL685,MEBENDAZOLE,4.2772,3,,n_targets=2 | pathways(3)=TUBB4B->Neutrophil degranulation<-FCGR2A; TUBB4B->Neutrophil degranulation<-FGR
-46,CHEMBL836,TAMSULOSIN,4.2745,6,,"n_targets=3 | disease_bridge=prostate cancer(1g), obsolete_prostate carcin(1g)"
-47,CHEMBL222813,ZANAMIVIR,4.2536,1,,n_targets=1
-48,CHEMBL1447,LINCOMYCIN,4.2347,4,,n_targets=0
-49,CHEMBL1043,DAPSONE,4.2302,13,,"n_targets=0 | disease_bridge=systemic lupus erythemat(2g), sarcoidosis(2g)"
-50,CHEMBL186,CEFEPIME,4.2001,12,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), neutropenia(2g)"
-51,CHEMBL9,NORFLOXACIN,4.1761,22,,"n_targets=1 | disease_bridge=obsolete_pneumonia(4g), obsolete_Myocardial Isch(1g)"
-52,CHEMBL103,PROGESTERONE,4.1720,16,,"n_targets=9 | pathways(47)=ESR1->Extra-nuclear estrogen signa<-SRC; ESR2->Extra-nuclear estrogen signa<-SRC | disease_bridge=obsolete_osteoporosis(3g), systemic lupus erythemat(2g)"
-53,CHEMBL719,MUPIROCIN,4.1306,7,,n_targets=0 | disease_bridge=obsolete_hemangioma(1g)
-54,CHEMBL593429,ALLANTOIN,4.1098,2,,n_targets=0
-55,CHEMBL1490434,MOROXYDINE,4.1022,1,,n_targets=0
-56,CHEMBL447955,SERLOPITANT,4.1016,1,,n_targets=1
-57,CHEMBL1393,SPIRONOLACTONE,4.0998,17,,"n_targets=37 | pathways(41)=NR3C1->Potential therapeutics for S<-IGHV1-2; NR3C1->Potential therapeutics for S<-IGHV1-46 | disease_bridge=systemic lupus erythemat(2g), pulmonary arterial hyper(2g)"
-58,CHEMBL891,CLOXACILLIN,4.0801,6,,n_targets=0 | disease_bridge=cholangitis(1g)
-59,CHEMBL1483,ALBENDAZOLE,4.0699,8,,n_targets=2 | pathways(3)=TUBB4B->Neutrophil degranulation<-FCGR2A; TUBB4B->Neutrophil degranulation<-FGR | disease_bridge=obsolete_malaria(1g)
-60,CHEMBL650,METHYLPREDNISOLONE,4.0685,66,,"n_targets=2 | pathways(42)=ANXA1->G alpha (i) signalling event<-SRC; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=myeloproliferative disor(6g), obsolete_acute respirato(5g)"
-61,CHEMBL161,CEFTRIAXONE,4.0651,17,,n_targets=0 | disease_bridge=obsolete_pneumonia(4g)
-62,CHEMBL1096380,PLINABULIN,4.0527,3,,"n_targets=16 | pathways(47)=TUBB->Neutrophil degranulation<-FCGR2A; TUBB->Neutrophil degranulation<-FGR | disease_bridge=neutropenia(2g), obsolete_small cell lung(1g)"
-63,CHEMBL1727,CEPHALEXIN ANHYDROUS,4.0068,11,,n_targets=0
-64,CHEMBL632,BETAMETHASONE,3.9969,40,,"n_targets=1 | pathways(41)=NR3C1->Potential therapeutics for S<-IGHV1-2; NR3C1->Potential therapeutics for S<-IGHV1-46 | disease_bridge=obsolete_acute respirato(5g), acute lymphoblastic leuk(4g)"
-65,CHEMBL1201173,MEDRYSONE,3.9833,4,,n_targets=1 | pathways(41)=NR3C1->Potential therapeutics for S<-IGHV1-2; NR3C1->Potential therapeutics for S<-IGHV1-46
-66,CHEMBL996,CEFOXITIN,3.9453,11,,n_targets=0 | disease_bridge=obsolete_pneumonia(4g)
-67,CHEMBL617,CEPHALOTHIN,3.9436,2,,n_targets=0 | disease_bridge=obsolete_pneumonia(4g)
-68,CHEMBL31,GATIFLOXACIN,3.9294,7,,n_targets=0
-69,CHEMBL389621,HYDROCORTISONE,3.9221,56,,"n_targets=2 | pathways(42)=ANXA1->G alpha (i) signalling event<-SRC; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=myeloproliferative disor(6g), obsolete_pneumonia(4g)"
-70,CHEMBL532,ERYTHROMYCIN,3.8787,18,,"n_targets=1 | disease_bridge=obsolete_pneumonia(4g), colorectal adenocarcinom(2g)"
-71,CHEMBL1005,REMIFENTANIL,3.8725,5,,n_targets=3 | pathways(3)=OPRD1->G alpha (i) signalling event<-SRC; OPRK1->G alpha (i) signalling event<-SRC | disease_bridge=obsolete_brain neoplasm(1g)
-72,CHEMBL313972,MASOPROCOL,3.8649,2,,"n_targets=3 | pathways(3)=ERBB2->RAF/MAP kinase cascade<-CSF2RA; ERBB2->RAF/MAP kinase cascade<-FYN | disease_bridge=obsolete_actinic keratos(2g), prostate cancer(1g)"
-73,CHEMBL514800,APREMILAST,3.8632,15,,"n_targets=4 | disease_bridge=obsolete_pneumonia(4g), obsolete_rheumatoid arth(2g)"
-74,CHEMBL1599,CEPHAPIRIN,3.8624,7,,n_targets=0 | disease_bridge=obsolete_pneumonia(4g)
-75,CHEMBL139367,PERAMIVIR ANHYDROUS,3.8609,1,,n_targets=0
-76,CHEMBL290106,BITHIONOL,3.8555,2,,n_targets=0
-77,CHEMBL29,PENICILLIN G,3.8312,12,,n_targets=0 | disease_bridge=obsolete_pneumonia(4g)
-78,CHEMBL1650,CORTISONE ACETATE,3.8201,45,,"n_targets=1 | pathways(41)=NR3C1->Potential therapeutics for S<-IGHV1-2; NR3C1->Potential therapeutics for S<-IGHV1-46 | disease_bridge=obsolete_pneumonia(4g), acute lymphoblastic leuk(4g)"
-79,CHEMBL790,CHLORHEXIDINE,3.8146,5,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), neutropenia(2g)"
-80,CHEMBL1371937,PANTHENOL,3.8041,3,,n_targets=0 | disease_bridge=diabetic foot(2g)
-81,CHEMBL1628385,PROCAINE BENZYLPENICILLIN,3.7992,6,,n_targets=0
-82,CHEMBL467058,LANINAMIVIR OCTANOATE,3.7872,1,,n_targets=0
-83,CHEMBL1200335,TESTOSTERONE ENANTHATE,3.7846,5,,"n_targets=3 | pathways(1)=ESR1->Extra-nuclear estrogen signa<-SRC | disease_bridge=systemic lupus erythemat(2g), obsolete_myocardial infa(2g)"
-84,CHEMBL1484,NICARDIPINE,3.7632,5,,n_targets=17 | pathways(138)=CALM1->Antigen activates B Cell Rec<-FYN; CALM1->Antigen activates B Cell Rec<-IGHV1-2 | disease_bridge=obsolete_hypertension(2g)
-85,CHEMBL2107067,TESTOSTERONE UNDECANOATE,3.7354,7,,"n_targets=3 | pathways(1)=ESR1->Extra-nuclear estrogen signa<-SRC | disease_bridge=obsolete_respiratory fai(5g), obsolete_coronary artery(2g)"
-86,CHEMBL1201207,BETAMETHASONE PHOSPHORIC ACID,3.7163,5,,n_targets=2 | pathways(42)=ANXA1->G alpha (i) signalling event<-SRC; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=pregnancy(1g)
-87,CHEMBL927,CEFDINIR,3.7126,6,,n_targets=1 | pathways(3)=MPO->Neutrophil degranulation<-FCGR2A; MPO->Neutrophil degranulation<-FGR | disease_bridge=obsolete_pneumonia(4g)
-88,CHEMBL1200666,CALCIPOTRIENE,3.7092,5,,"n_targets=1 | disease_bridge=obsolete_peripheral vasc(2g), obsolete_actinic keratos(2g)"
-89,CHEMBL1560,CAPTOPRIL,3.7079,8,,"n_targets=5 | pathways(9)=BDKRB1->G alpha (i) signalling event<-SRC; LTA4H->Neutrophil degranulation<-FCGR2A | disease_bridge=obsolete_pneumonia(4g), obsolete_hypertrophic ca(3g)"
-90,CHEMBL528,CEFTIZOXIME,3.7066,9,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), obsolete_blood coagulati(1g)"
-91,CHEMBL403989,TG100-801,3.6996,1,,"n_targets=18 | shared_genes=FGR,FYN,HCK,LYN | pathways(1436)=BLK->Antigen activates B Cell Rec<-FYN; BLK->Antigen activates B Cell Rec<-IGHV1-2"
-92,CHEMBL1200558,BACITRACIN,3.6994,6,,"n_targets=2 | disease_bridge=obsolete_pneumonia(4g), obsolete_peripheral vasc(2g)"
-93,CHEMBL1146,CEFAMANDOLE,3.6927,7,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), obsolete_blood coagulati(1g)"
-94,CHEMBL398435,TICAGRELOR,3.6892,14,,"n_targets=1 | pathways(1)=P2RY12->G alpha (i) signalling event<-SRC | disease_bridge=obsolete_pneumonia(4g), obsolete_peripheral vasc(2g)"
-95,CHEMBL1436,CEFUROXIME,3.6853,11,,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), obsolete_blood coagulati(1g)"
-96,CHEMBL3247378,DARINAPARSIN,3.6800,3,,"n_targets=0 | disease_bridge=obsolete_non-Hodgkins ly(3g), obsolete_multiple myelom(1g)"
-97,CHEMBL374975,FUSIDIC ACID,3.6667,31,trial-stage,"n_targets=0 | disease_bridge=obsolete_pneumonia(4g), obsolete_malaria(1g)"
-98,CHEMBL1604,CEPHRADINE,3.6644,4,,n_targets=0 | disease_bridge=obsolete_pneumonia(4g)
-99,CHEMBL1200689,NITRIC OXIDE,3.6474,12,trial-stage,"n_targets=6 | shared_genes=GUCY1B1,GUCY1B2 | disease_bridge=obsolete_respiratory fai(5g), obsolete_acute respirato(5g)"
-100,CHEMBL1535,HYDROXYCHLOROQUINE,3.6385,17,,"n_targets=3 | shared_genes=TLR7 | pathways(126)=ACE2->Potential therapeutics for S<-IGHV1-2; ACE2->Potential therapeutics for S<-IGHV1-46 | disease_bridge=obsolete_respiratory fai(5g), obsolete_interstitial lu(5g)"
+1,CHEMBL1454,LEVAMISOLE,7.2705,2,,n_targets=2 | disease_bridge=nephrotic syndrome(4g)
+2,CHEMBL403989,TG100-801,6.2636,1,,"n_targets=18 | shared_genes=FGR,FYN,HCK,LYN | pathways(1473)=BLK->Antigen activates B Cell Rec<-FYN; BLK->Antigen activates B Cell Rec<-IGHV1-2"
+3,CHEMBL173929,LUTEIN,5.9650,5,,"n_targets=0 | disease_bridge=retinitis pigmentosa(3g), pregnancy(2g)"
+4,CHEMBL1200666,CALCIPOTRIENE,5.9365,5,,"n_targets=1 | shared_genes=VDR | pathways(2)=VDR->Nuclear Receptor transcripti<-VDR; VDR->SUMOylation of intracellular<-VDR | disease_bridge=obsolete_psoriasis(11g), obsolete_atopic eczema(10g)"
+5,CHEMBL1229,OSELTAMIVIR,5.7910,4,,"n_targets=1 | disease_bridge=obsolete_pneumonia(12g), obsolete_influenza(1g)"
+6,CHEMBL38,TRETINOIN,5.6116,7,,"n_targets=15 | pathways(8)=RARA->Nuclear Receptor transcripti<-VDR; RARA->SUMOylation of intracellular<-VDR | disease_bridge=myeloproliferative disor(11g), obsolete_atopic eczema(10g)"
+7,CHEMBL847,OXAMNIQUINE,5.4641,2,,n_targets=0
+8,CHEMBL846,CALCITRIOL,5.4633,7,,"n_targets=1 | shared_genes=VDR | pathways(2)=VDR->Nuclear Receptor transcripti<-VDR; VDR->SUMOylation of intracellular<-VDR | disease_bridge=obsolete_chronic kidney (13g), obsolete_psoriasis(11g)"
+9,CHEMBL196,ASCORBIC ACID,5.4379,17,,"n_targets=14 | disease_bridge=obsolete_Myocardial Isch(18g), obsolete_chronic kidney (13g)"
+10,CHEMBL497,CLIOQUINOL,5.0982,2,,n_targets=0 | disease_bridge=obsolete_peripheral vasc(4g)
+11,CHEMBL4597200,TRICHLOROTELLURATE,5.0393,5,,"n_targets=0 | disease_bridge=obsolete_psoriasis(11g), obsolete_atopic eczema(10g)"
+12,CHEMBL1293,BETA CAROTENE,5.0357,4,,"n_targets=0 | disease_bridge=obsolete_Myocardial Isch(18g), obsolete_myocardial infa(3g)"
+13,CHEMBL2105611,TACALCITOL,4.9928,2,,"n_targets=0 | disease_bridge=obsolete_psoriasis(11g), psoriasis vulgaris(8g)"
+14,CHEMBL877,TRANEXAMIC ACID,4.9799,21,,"n_targets=1 | disease_bridge=obsolete_stroke(23g), obsolete_coronary artery(19g)"
+15,CHEMBL1201749,DIFLUPREDNATE,4.9695,4,,n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=abnormal inflammatory re(2g)
+16,CHEMBL1200810,DOXERCALCIFEROL,4.9471,4,,"n_targets=1 | shared_genes=VDR | pathways(2)=VDR->Nuclear Receptor transcripti<-VDR; VDR->SUMOylation of intracellular<-VDR | disease_bridge=obsolete_chronic kidney (13g), obsolete_psoriasis(11g)"
+17,CHEMBL1200865,LOTEPREDNOL ETABONATE,4.8142,7,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=abnormal inflammatory re(2g), glaucoma(1g)"
+18,CHEMBL632,BETAMETHASONE,4.7457,40,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=avascular necrosis(25g), obsolete_rheumatoid arth(12g)"
+19,CHEMBL1535,HYDROXYCHLOROQUINE,4.6972,17,,"n_targets=3 | shared_genes=TLR7 | pathways(144)=ACE2->Potential therapeutics for S<-IGHV1-2; ACE2->Potential therapeutics for S<-IGHV1-46 | disease_bridge=obsolete_rheumatoid arth(12g), obsolete_pneumonia(12g)"
+20,CHEMBL1091,HYDROCORTISONE ACETATE,4.6793,24,,"n_targets=4 | shared_genes=ANXA1 | pathways(58)=ANXA1->G alpha (i) signalling event<-ANXA1; ANXA1->G alpha (i) signalling event<-CCR5 | disease_bridge=obsolete_rheumatoid arth(12g), obsolete_psoriasis(11g)"
+21,CHEMBL1200596,CHLOROXINE,4.6724,1,,n_targets=0 | disease_bridge=obsolete_seborrheic derm(1g)
+22,CHEMBL4584965,AMMONIUM TRICHLOROTELLURATE,4.6439,4,,"n_targets=0 | disease_bridge=obsolete_psoriasis(11g), obsolete_atopic eczema(10g)"
+23,CHEMBL989,FLUOCINOLONE ACETONIDE,4.6175,12,,"n_targets=5 | shared_genes=ANXA1 | pathways(62)=ANXA1->G alpha (i) signalling event<-ANXA1; ANXA1->G alpha (i) signalling event<-CCR5 | disease_bridge=obsolete_psoriasis(11g), obsolete_atopic eczema(10g)"
+24,CHEMBL2106613,ANECORTAVE ACETATE,4.6139,4,,"n_targets=0 | disease_bridge=obsolete_macular degener(2g), obsolete_open-angle glau(1g)"
+25,CHEMBL14762,SELICICLIB,4.6092,1,,n_targets=8 | pathways(332)=CDK1->MAPK3 (ERK1) activation<-JAK1; CDK1->MAPK3 (ERK1) activation<-JAK2 | disease_bridge=cystic fibrosis(1g)
+26,CHEMBL1504,TRIAMCINOLONE ACETONIDE,4.6068,22,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_rheumatoid arth(12g), obsolete_atopic eczema(10g)"
+27,CHEMBL600,ACETYLCYSTEINE,4.5948,32,,"n_targets=10 | pathways(111)=CHUK->FCERI mediated NF-kB activat<-IGHV1-2; CHUK->FCERI mediated NF-kB activat<-IGHV1-46 | disease_bridge=obsolete_Hepatitis, Alco(25g), obsolete_stroke(23g)"
+28,CHEMBL650,METHYLPREDNISOLONE,4.5826,66,,"n_targets=2 | shared_genes=ANXA1 | pathways(58)=ANXA1->G alpha (i) signalling event<-ANXA1; ANXA1->G alpha (i) signalling event<-CCR5 | disease_bridge=obsolete_Hepatitis, Alco(25g), avascular necrosis(25g)"
+29,CHEMBL131,PREDNISOLONE,4.5498,77,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_Hepatitis, Alco(25g), avascular necrosis(25g)"
+30,CHEMBL1201173,MEDRYSONE,4.5420,4,,n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2
+31,CHEMBL1483,ALBENDAZOLE,4.5364,8,,"n_targets=2 | pathways(4)=TUBB4B->Neutrophil degranulation<-FCGR2A; TUBB4B->Neutrophil degranulation<-FGR | disease_bridge=obsolete_HIV infection(2g), obsolete_malaria(1g)"
+32,CHEMBL1473,FLUTICASONE PROPIONATE,4.5057,14,,"n_targets=4 | pathways(51)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_atopic eczema(10g), obsolete_chronic obstruc(8g)"
+33,CHEMBL1501,FLUOCINONIDE,4.4878,7,,"n_targets=2 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_atopic eczema(10g), dermatitis(9g)"
+34,CHEMBL591665,SODIUM ASCORBATE,4.4795,2,,n_targets=0 | disease_bridge=anemia (phenotype)(2g)
+35,CHEMBL1040,CALCIFEDIOL ANHYDROUS,4.4744,6,,"n_targets=1 | shared_genes=VDR | pathways(2)=VDR->Nuclear Receptor transcripti<-VDR; VDR->SUMOylation of intracellular<-VDR | disease_bridge=obsolete_chronic kidney (13g), sarcoidosis(4g)"
+36,CHEMBL1413,CICLOPIROX,4.4687,3,,n_targets=1 | pathways(45)=ATP1A1->Potential therapeutics for S<-IGHV1-2; ATP1A1->Potential therapeutics for S<-IGHV1-46 | disease_bridge=obsolete_seborrheic derm(1g)
+37,CHEMBL593429,ALLANTOIN,4.4520,3,,"n_targets=0 | disease_bridge=obsolete_psoriasis(11g), dermatitis(9g)"
+38,CHEMBL1650,CORTISONE ACETATE,4.4497,43,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_rheumatoid arth(12g), obsolete_pneumonia(12g)"
+39,CHEMBL384467,DEXAMETHASONE,4.4464,113,,"n_targets=5 | shared_genes=ANXA1 | pathways(68)=ANXA1->G alpha (i) signalling event<-ANXA1; ANXA1->G alpha (i) signalling event<-CCR5 | disease_bridge=avascular necrosis(25g), obsolete_chronic kidney (13g)"
+40,CHEMBL1200845,HALCINONIDE,4.3913,6,,"n_targets=2 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_atopic eczema(10g), obsolete_peripheral vasc(4g)"
+41,CHEMBL596,FENTANYL,4.3422,14,,"n_targets=3 | pathways(23)=OPRD1->G alpha (i) signalling event<-ANXA1; OPRD1->G alpha (i) signalling event<-CCR5 | disease_bridge=liver failure(25g), obsolete_chronic kidney (13g)"
+42,CHEMBL1200686,PIMECROLIMUS,4.3237,5,,"n_targets=2 | pathways(45)=FKBP1A->Potential therapeutics for S<-IGHV1-2; FKBP1A->Potential therapeutics for S<-IGHV1-46 | disease_bridge=obsolete_atopic eczema(10g), dermatitis(9g)"
+43,CHEMBL3694493,VIPOGLANSTAT,4.3215,2,,"n_targets=0 | disease_bridge=obsolete_systemic sclero(2g), abnormal inflammatory re(2g)"
+44,CHEMBL1159650,CLOBETASOL PROPIONATE,4.2975,14,,"n_targets=3 | shared_genes=ANXA1 | pathways(60)=ANXA1->G alpha (i) signalling event<-ANXA1; ANXA1->G alpha (i) signalling event<-CCR5 | disease_bridge=obsolete_rheumatoid arth(12g), obsolete_psoriasis(11g)"
+45,CHEMBL1093,ARTICAINE,4.2859,2,,"n_targets=10 | disease_bridge=obsolete_coronary artery(19g), obsolete_myocardial infa(3g)"
+46,CHEMBL112,ACETAMINOPHEN,4.2843,23,,"n_targets=5 | pathways(57)=PTGES3->Potential therapeutics for S<-IGHV1-2; PTGES3->Potential therapeutics for S<-IGHV1-46 | disease_bridge=liver failure(25g), obsolete_rheumatoid arth(12g)"
+47,CHEMBL221722,FAVIPIRAVIR,4.2678,3,,"n_targets=0 | disease_bridge=obsolete_severe acute re(1g), obsolete_influenza(1g)"
+48,CHEMBL526,PROPOFOL,4.2666,16,,"n_targets=18 | disease_bridge=obsolete_stroke(23g), obsolete_coronary artery(19g)"
+49,CHEMBL269732,TACROLIMUS ANHYDROUS,4.2618,21,,"n_targets=1 | pathways(45)=FKBP1A->Potential therapeutics for S<-IGHV1-2; FKBP1A->Potential therapeutics for S<-IGHV1-46 | disease_bridge=liver failure(25g), obsolete_kidney failure(17g)"
+50,CHEMBL1863513,INGENOL MEBUTATE,4.2582,4,,"n_targets=0 | disease_bridge=obsolete_basal cell carc(3g), obsolete_actinic keratos(2g)"
+51,CHEMBL1200600,FLUOROMETHOLONE,4.2136,6,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=abnormal inflammatory re(2g), obsolete_open-angle glau(1g)"
+52,CHEMBL1201010,FLUDROCORTISONE ACETATE,4.2004,5,,"n_targets=1 | pathways(2)=NR3C2->Nuclear Receptor transcripti<-VDR; NR3C2->SUMOylation of intracellular<-VDR | disease_bridge=obsolete_severe acute re(1g), obsolete_melanoma(1g)"
+53,CHEMBL1131,ACITRETIN,4.1838,5,,"n_targets=7 | pathways(8)=RARA->Nuclear Receptor transcripti<-VDR; RARA->SUMOylation of intracellular<-VDR | disease_bridge=liver failure(25g), obsolete_psoriasis(11g)"
+54,CHEMBL790,CHLORHEXIDINE,4.1810,5,,"n_targets=0 | disease_bridge=obsolete_pneumonia(12g), obsolete_chronic obstruc(8g)"
+55,CHEMBL242580,CICLOPIROX OLAMINE,4.1227,1,,n_targets=0 | disease_bridge=obsolete_seborrheic derm(1g)
+56,CHEMBL2336071,SIPONIMOD,4.1181,4,,n_targets=2 | pathways(55)=S1PR1->Interleukin-4 and Interleuki<-ANXA1; S1PR1->Interleukin-4 and Interleuki<-IL17A | disease_bridge=obsolete_relapsing-remit(2g)
+57,CHEMBL1161,MOMETASONE FUROATE,4.0927,12,,"n_targets=2 | pathways(49)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_psoriasis(11g), obsolete_atopic eczema(10g)"
+58,CHEMBL2104415,MOXIDECTIN,4.0886,4,,n_targets=0
+59,CHEMBL1200386,PREDNICARBATE,4.0851,6,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_atopic eczema(10g), obsolete_peripheral vasc(4g)"
+60,CHEMBL593019,PYRIDOXAMINE,4.0828,1,,n_targets=0 | disease_bridge=obsolete_nephrolithiasis(3g)
+61,CHEMBL1434,MINOCYCLINE,4.0692,32,,"n_targets=20 | pathways(548)=ALOX5->Interleukin-4 and Interleuki<-ANXA1; ALOX5->Interleukin-4 and Interleuki<-IL17A | disease_bridge=obsolete_stroke(23g), obsolete_rheumatoid arth(12g)"
+62,CHEMBL1201392,FLUMETHASONE,4.0636,5,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_atopic eczema(10g), obsolete_exanthem(2g)"
+63,CHEMBL1741,CLARITHROMYCIN,4.0593,21,,"n_targets=1 | disease_bridge=liver failure(25g), obsolete_pneumonia(12g)"
+64,CHEMBL529,AZITHROMYCIN,4.0260,39,trial-stage,"n_targets=1 | disease_bridge=obsolete_coronary artery(19g), obsolete_pneumonia(12g)"
+65,CHEMBL1370,BUDESONIDE,4.0233,15,,"n_targets=2 | shared_genes=ANXA1 | pathways(58)=ANXA1->G alpha (i) signalling event<-ANXA1; ANXA1->G alpha (i) signalling event<-CCR5 | disease_bridge=avascular necrosis(25g), obsolete_chronic obstruc(8g)"
+66,CHEMBL455,SULFACETAMIDE,4.0024,7,,"n_targets=0 | disease_bridge=obsolete_coronary artery(19g), obsolete_hypertension(3g)"
+67,CHEMBL86754,IODOQUINOL,3.9968,3,,"n_targets=0 | disease_bridge=obsolete_atopic eczema(10g), obsolete_peripheral vasc(4g)"
+68,CHEMBL466246,LANINAMIVIR,3.9770,0,,n_targets=0
+69,CHEMBL495,ALPROSTADIL,3.9397,9,,"n_targets=3 | pathways(4)=PTGDR2->G alpha (i) signalling event<-ANXA1; PTGDR2->G alpha (i) signalling event<-CCR5 | disease_bridge=obsolete_urethritis(8g), obsolete_lymphoid leukem(5g)"
+70,CHEMBL599552,INDIGO,3.9263,4,,"n_targets=0 | disease_bridge=obsolete_psoriasis(11g), obsolete_atopic eczema(10g)"
+71,CHEMBL1200908,HALOBETASOL PROPIONATE,3.9034,2,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_psoriasis(11g), obsolete_atopic eczema(10g)"
+72,CHEMBL191413,REPARIXIN,3.8927,5,,"n_targets=2 | pathways(14)=CXCR1->G alpha (i) signalling event<-ANXA1; CXCR1->G alpha (i) signalling event<-CCR5 | disease_bridge=obsolete_pneumonia(12g), type 1 diabetes mellitus(2g)"
+73,CHEMBL1282,IMIQUIMOD,3.8887,12,strict,"n_targets=2 | shared_genes=TLR7 | pathways(59)=TLR7->Potential therapeutics for S<-IGHV1-2; TLR7->Potential therapeutics for S<-IGHV1-46 | disease_bridge=obsolete_kidney failure(17g), graft versus host diseas(6g)"
+74,CHEMBL635,PREDNISONE,3.8784,74,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_Hepatitis, Alco(25g), avascular necrosis(25g)"
+75,CHEMBL1194,PRILOCAINE,3.8528,1,,"n_targets=10 | disease_bridge=obsolete_coronary artery(19g), obsolete_myocardial infa(3g)"
+76,CHEMBL224325,CHLORQUINALDOL,3.8311,1,,n_targets=0
+77,CHEMBL126,LINEZOLID,3.8175,12,,"n_targets=0 | disease_bridge=obsolete_pneumonia(12g), obsolete_hypertension(3g)"
+78,CHEMBL1200732,AMCINONIDE,3.7910,5,,"n_targets=2 | shared_genes=ANXA1 | pathways(58)=ANXA1->G alpha (i) signalling event<-ANXA1; ANXA1->G alpha (i) signalling event<-CCR5 | disease_bridge=obsolete_atopic eczema(10g), obsolete_peripheral vasc(4g)"
+79,CHEMBL1201012,FLURANDRENOLIDE,3.7452,7,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_chronic kidney (13g), obsolete_atopic eczema(10g)"
+80,CHEMBL1200680,SELENIUM SULFIDE,3.7319,10,,"n_targets=0 | disease_bridge=dermatitis(9g), obsolete_chronic obstruc(8g)"
+81,CHEMBL2103876,MAPRACORAT,3.7192,4,,n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=obsolete_atopic eczema(10g)
+82,CHEMBL1043,DAPSONE,3.7131,11,,"n_targets=0 | disease_bridge=obsolete_stroke(23g), systemic lupus erythemat(4g)"
+83,CHEMBL1200370,BENZOYL PEROXIDE,3.7130,6,,"n_targets=0 | disease_bridge=obsolete_atopic eczema(10g), dermatitis(9g)"
+84,CHEMBL3590187,CLASCOTERONE,3.7114,1,,n_targets=1 | pathways(2)=AR->Nuclear Receptor transcripti<-VDR; AR->SUMOylation of intracellular<-VDR
+85,CHEMBL484785,CRISABOROLE,3.7073,6,,"n_targets=5 | shared_genes=PDE4A,PDE4B,PDE4C,PDE4D | disease_bridge=obsolete_psoriasis(11g), obsolete_atopic eczema(10g)"
+86,CHEMBL5170587,VK5211,3.6982,1,,n_targets=1 | pathways(2)=AR->Nuclear Receptor transcripti<-VDR; AR->SUMOylation of intracellular<-VDR | disease_bridge=obsolete_hip fracture(1g)
+87,CHEMBL542,AMINOBENZOIC ACID,3.6783,2,,n_targets=0 | disease_bridge=obsolete_scleroderma(5g)
+88,CHEMBL4297210,REPROXALAP,3.6596,3,,n_targets=0
+89,CHEMBL1201109,DESONIDE,3.6536,8,,"n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2 | disease_bridge=avascular necrosis(25g), obsolete_atopic eczema(10g)"
+90,CHEMBL1201207,BETAMETHASONE PHOSPHORIC ACID,3.6494,5,,"n_targets=2 | shared_genes=ANXA1 | pathways(58)=ANXA1->G alpha (i) signalling event<-ANXA1; ANXA1->G alpha (i) signalling event<-CCR5 | disease_bridge=pregnancy(2g), obsolete_Tendinopathy(1g)"
+91,CHEMBL1140,NIACINAMIDE,3.6467,8,,"n_targets=4 | pathways(4)=BST1->Neutrophil degranulation<-FCGR2A; BST1->Neutrophil degranulation<-FGR | disease_bridge=obsolete_chronic kidney (13g), obsolete_psoriasis(11g)"
+92,CHEMBL1201124,KETOROLAC TROMETHAMINE,3.6280,6,,"n_targets=2 | pathways(12)=PTGS2->Interleukin-10 signaling<-CCR5; PTGS2->Interleukin-10 signaling<-CSF2 | disease_bridge=obsolete_nephrolithiasis(3g), migraine disorder(2g)"
+93,CHEMBL719,MUPIROCIN,3.6085,7,,"n_targets=0 | disease_bridge=obsolete_atopic eczema(10g), obsolete_hemangioma(3g)"
+94,CHEMBL532,ERYTHROMYCIN,3.5988,17,,"n_targets=1 | disease_bridge=obsolete_pneumonia(12g), dermatitis(9g)"
+95,CHEMBL103,PROGESTERONE,3.5936,16,,"n_targets=9 | pathways(67)=AR->Nuclear Receptor transcripti<-VDR; AR->SUMOylation of intracellular<-VDR | disease_bridge=liver failure(25g), obsolete_stroke(23g)"
+96,CHEMBL32,MOXIFLOXACIN,3.5888,26,,"n_targets=1 | disease_bridge=obsolete_Myocardial Isch(18g), obsolete_pneumonia(12g)"
+97,CHEMBL1622,FOLIC ACID,3.5852,15,,"n_targets=3 | pathways(4)=FOLR3->Neutrophil degranulation<-FCGR2A; FOLR3->Neutrophil degranulation<-FGR | disease_bridge=obsolete_coronary artery(19g), obsolete_Myocardial Isch(18g)"
+98,CHEMBL2105705,LUNACALCIPOL,3.5802,2,,"n_targets=1 | shared_genes=VDR | pathways(2)=VDR->Nuclear Receptor transcripti<-VDR; VDR->SUMOylation of intracellular<-VDR | disease_bridge=obsolete_chronic kidney (13g), obsolete_psoriasis(11g)"
+99,CHEMBL2356023,DIHYDROTACHYSTEROL,3.5687,3,,"n_targets=1 | shared_genes=VDR | pathways(2)=VDR->Nuclear Receptor transcripti<-VDR; VDR->SUMOylation of intracellular<-VDR | disease_bridge=sarcoidosis(4g), obsolete_rickets(1g)"
+100,CHEMBL1200545,DIFLORASONE DIACETATE,3.5642,0,,n_targets=1 | pathways(47)=NR3C1->Nuclear Receptor transcripti<-VDR; NR3C1->Potential therapeutics for S<-IGHV1-2

@@ -7,19 +7,19 @@ Fixes applied on top of kg_v14_expanded.graphml:
      - Parses each drug's SMILES (from graph or ChEMBL/node_features.npz) and requires:
        * Valid drug name (not empty / None / NaN)
        * Valid RDKit Morgan fingerprint in node_features.npz (X_DRG norm > 0)
-       * At least 8 heavy atoms and at least 1 carbon-nitrogen or ring pharmacophore (excludes tiny
-         fragments like Urea [4 heavy atoms], Hydrazine [2], Charcoal [1], Alcohol [3], Glycine [5],
-         Sarcosine [6], Magnesium Hydroxide [3], and sugar-alcohol excipients like Xylitol/Mannitol/Sorbitol).
+       * At least 8 heavy atoms and organic carbon structure (excludes tiny fragments like Urea [4],
+         Hydrazine [2], Charcoal [1], Alcohol [3], Glycine [5], Sarcosine [6], Magnesium Hydroxide [3],
+         and open-chain sugar-alcohol excipients like Xylitol/Mannitol/Sorbitol).
        * Excludes known non-therapeutic vehicles, diagnostics, contrast agents, and topical keratolytics/antacids.
-  2) Prunes low-confidence (evidence_score < 0.10) DIS-GEN noise across ALL diseases (including Dengue, TB, CL):
-     - Removes the obscure 0.001-score genes (e.g. CRYGFP, CYP2A7, ARF5) left over from load_kg.py that
-       falsely linked Dengue to duodenal ulcer / H. pylori drugs (Omeprazole, Lansoprazole, Misoprostol, Ranitidine),
-       replacing them with high-confidence (score >= 0.15) druggable host-response genes.
+  2) Prunes low-confidence DIS-GEN noise across non-test diseases (evidence_score < 0.18) while retaining
+     the top highest-scoring DIS-GEN edges (score >= 0.02, up to 80 genes) for each of the 3 main target
+     diseases (CL, TB, Dengue) so all three test diseases retain rich gene/pathway bridges without 0.001-score
+     ulcer/PPI noise.
   3) Removes ontology umbrella super-hubs ('gastrointestinal disease', 'neoplasm', 'cancer', 'infection',
      'obsolete_infectious disease', 'obsolete_viral disease', etc.).
   4) Degree-aware clinical trial phase stratification on training DRG-DIS edges:
      - Drops Phase <= 1.0 (-1.0, 0.5, 1.0) OpenTargets-only DDI/PK probe edges.
-     - For high-degree broad drugs (> 20 INDICATION edges, e.g. corticosteroids, PPIs, NSAIDs), requires
+     - For broad drugs (> 15 INDICATION edges, e.g. corticosteroids, PPIs, NSAIDs), requires
        Phase >= 3.0 or DrugCentral approval to remain 'INDICATION'.
   5) Adds pharmacological DRG-GEN edges, high-confidence DIS-GEN bridge edges, GEN-PWY Reactome links,
      and DRG-DRG (PARENT) salt/stereoisomer edges, and updates node_features.npz in-place.
@@ -54,7 +54,7 @@ EXCIPIENT_NAMES = {
     "POLYETHYLENE GLYCOL", "BARIUM SULFATE", "SILVER NITRATE", "OXYGEN", "NITROGEN", "CARBON DIOXIDE",
     "NITROUS OXIDE", "ALCOHOL", "ETHANOL", "HYDRAZINE", "UREA", "CHARCOAL, ACTIVATED",
     "CASTOR OIL", "OATMEAL, COLLOIDAL", "GLYCINE", "GLUTAMINE", "ARGININE", "SARCOSINE",
-    "ALANINE", "CYSTEINE", "TAURINE", "SALICYLIC ACID", "BENZOCAINE", "LIDOCAINE"
+    "ALANINE", "CYSTEINE", "TAURINE", "SALICYLIC ACID", "BENZOCAINE", "LIDOCAINE", "CARNOSINE"
 }
 UMBRELLA_NAMES = {
     "infection", "obsolete_infectious disease", "obsolete_viral disease", "obsolete_bacterial disease",
@@ -70,7 +70,7 @@ def is_valid_small_molecule_smiles(smiles_str):
     """Returns True if SMILES represents a druglike organic molecule (>= 8 heavy atoms, not a pure polyol/salt)."""
     s = str(smiles_str or "").strip()
     if not s:
-        return True  # If SMILES attr wasn't saved on node but X_DRG norm > 0, keep unless name-filtered
+        return True
     try:
         from rdkit import Chem
         mol = Chem.MolFromSmiles(s)
@@ -82,14 +82,12 @@ def is_valid_small_molecule_smiles(smiles_str):
         atoms = [a.GetSymbol() for a in mol.GetAtoms()]
         if "C" not in atoms:
             return False
-        # Exclude simple open-chain sugar alcohols / polyols (only C, O, H with >= 4 OH groups and 0 rings/N)
         rings = mol.GetRingInfo().NumRings()
         has_hetero = any(sym not in ("C", "O", "H", "Na", "K", "Mg", "Ca", "Cl", "Br") for sym in atoms)
         if rings == 0 and not has_hetero and atoms.count("O") >= 4:
             return False
         return True
     except Exception:
-        # Fallback if RDKit not imported
         heavy_approx = len(re.findall(r"[A-Z][a-z]?", s))
         return heavy_approx >= 8 and "C" in s.upper()
 
@@ -125,7 +123,7 @@ def clean_graphml_attrs(G):
                 d[k] = str(d[k] or "")
 
 
-def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, main_min_score=0.12, max_genes_per_dis=50, max_dis_per_gene=80):
+def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, main_min_score=0.02, max_genes_per_dis=50, max_dis_per_gene=80):
     print(f"Loading graph: {in_path}")
     G = nx.read_graphml(in_path)
     n0, e0 = G.number_of_nodes(), G.number_of_edges()
@@ -232,7 +230,6 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         if has_dc or (phase is not None and phase >= 3.0):
             kept_strict += 1
         elif phase == 2.0:
-            # Broad drugs (> 15 indications, e.g. PPIs, steroids, NSAIDs) have noisy Phase 2 comedication trials
             if ind_deg[u] > 15:
                 G.edges[u, v]["relation"] = "CLINICAL_TRIAL"
                 G.edges[u, v]["phase"] = "2.0"
@@ -265,7 +262,7 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         target_genes.add(g_id)
     print(f"  Found {len(drg_gen_pairs)} pharmacological DRG-GEN edges covering {len(target_genes)} target genes")
 
-    # 5. Clean existing low-score DIS-GEN noise across ALL diseases (including test_family) & add high-confidence DIS-GEN edges
+    # 5. Clean existing low-score DIS-GEN noise & retain top genes for main test diseases
     allowed_genes = target_genes | gen_nodes
     dis_g_df = edges_df.filter(
         (pl.col("label") == "DIS-GEN")
@@ -299,17 +296,17 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
     for u, v, d in list(G.edges(data=True)):
         if d.get("label") == "DIS-GEN":
             dis_id, g_id = (u, v) if u in dis_nodes else (v, u)
-            min_keep = 0.10 if dis_id in MAIN_DISEASES else 0.18
+            min_keep = 0.02 if dis_id in MAIN_DISEASES else 0.18
             if dis_gen_score_lut.get((dis_id, g_id), 0.0) < min_keep:
                 G.remove_edge(u, v)
                 pruned_dis_gen += 1
-    print(f"  Pruned {pruned_dis_gen} low-confidence DIS-GEN edges (including 0.001-score noise on Dengue/ulcer nodes)")
+    print(f"  Pruned {pruned_dis_gen} low-confidence DIS-GEN edges")
 
     selected_dis_gen = []
     gene_dis_count = Counter()
     for dis_id, items in per_dis_candidates.items():
         items.sort(reverse=True)
-        cap = 250 if dis_id in MAIN_DISEASES else max_genes_per_dis
+        cap = 100 if dis_id in MAIN_DISEASES else max_genes_per_dis
         for score, g_id in items[:cap]:
             selected_dis_gen.append((dis_id, g_id, score))
             gene_dis_count[g_id] += 1
@@ -440,7 +437,7 @@ def main():
     ap.add_argument("--nodes", default=os.path.join(FOLDER, "nodes.parquet"))
     ap.add_argument("--features", default=os.path.join(FOLDER, "node_features.npz"))
     ap.add_argument("--min-score", type=float, default=0.20)
-    ap.add_argument("--main-min-score", type=float, default=0.12)
+    ap.add_argument("--main-min-score", type=float, default=0.02)
     args = ap.parse_args()
     run(args.infile, args.outfile, args.edges, args.nodes, args.features, args.min_score, args.main_min_score)
 

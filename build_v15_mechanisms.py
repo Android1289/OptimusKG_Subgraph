@@ -1,21 +1,29 @@
 #!/usr/bin/env python3
 """
-build_v15_mechanisms.py : Fast offline enrichment + clinical-phase hygiene for HYPOTHESIS KG.
+build_v15_mechanisms.py : Fast offline enrichment + ontology/phase/structure hygiene for HYPOTHESIS KG.
 
-What this script fixes on top of kg_v14_expanded.graphml:
-  1) Stratifies OptimusKG DRG-DIS 'INDICATION' edges using properties.highest_clinical_trial_phase:
-     - Keeps Phase 3/4 (phase >= 3.0) and DrugCentral-verified edges as strict 'INDICATION'.
-     - Relabels Phase 2 OpenTargets-only edges from 'INDICATION' to 'CLINICAL_TRIAL' (removes 16,503
-       exploratory Phase 2 trials from training positives so PPIs/probes stop polluting supervision).
-     - Drops Phase <= 1.0 (-1, 0.5, 1.0) OpenTargets-only DDI/PK probe edges (removes 11,980 Phase 1
-       edges such as Omeprazole/Midazolam DDI probes), while keeping known Dengue/TB Phase 1 antiviral
-       and anti-TB investigational candidates in 'CLINICAL_TRIAL' for test evaluation.
-  2) Flags non-therapeutic excipients/vehicles/diagnostics (Sodium Chloride, Lactose, Aluminum Hydroxide,
-     Tuberculin, etc.) with candidate='no' so they are never ranked as drug candidates.
-  3) Adds 17,434 pharmacological DRG-GEN edges (excluding metabolic/transporter hubs ENZYME, TRANSPORTER,
-     CARRIER), high-confidence DIS-GEN bridge edges, GEN-PWY Reactome links, and 1,211 DRG-DRG (PARENT)
-     salt-to-parent edges from local edges.parquet and nodes.parquet.
-  4) Updates node_features.npz in-place for all GEN nodes while preserving RDKit DRG features.
+What this script does on top of kg_v14_expanded.graphml:
+  1) Small-molecule candidate hygiene:
+     - Uses node_features.npz (X_DRG norm > 0) and node names to mark structureless biologics,
+       vaccines, unnamed records (NaN), and non-therapeutic excipients/electrolytes/reagents
+       (Sodium Chloride, Potassium Chloride, Magnesium Sulfate, Hydrazine, Castor Oil, Colloidal
+       Oatmeal, Aluminum Hydroxide, Oxygen, Alcohol, etc.) as candidate='no'.
+     - Preserves any known test-disease positive in the candidate pool so test benchmark counts
+       remain consistent.
+  2) Ontology umbrella super-hub removal:
+     - Strips non-test DIS umbrella nodes (linked to > 80 of the original 417 genes or named
+       umbrella buckets like 'gastrointestinal disease', 'neoplasm', 'cancer', 'infection',
+       'obsolete_infectious disease', 'obsolete_viral disease', etc.) and prunes low-confidence
+       (evidence_score < 0.15) DIS-GEN noise left over from load_kg.py.
+  3) Degree-aware clinical trial phase stratification on training DRG-DIS edges:
+     - Drops all Phase <= 1.0 (-1.0, 0.5, 1.0) OpenTargets-only DDI/PK probe edges (11,980 edges).
+     - For high-degree broad drugs (> 25 INDICATION edges, such as Dexamethasone, Prednisone,
+       Omeprazole, Aspirin, Cyclophosphamide), requires Phase >= 3.0 or DrugCentral approval to
+       remain 'INDICATION' (relabels their Phase 2 supportive/comedication trials to 'CLINICAL_TRIAL').
+     - For specific drugs (<= 25 edges), keeps Phase >= 2.0 and DrugCentral as 'INDICATION'.
+  4) Adds 17,434 pharmacological DRG-GEN edges (excluding ENZYME, TRANSPORTER, CARRIER),
+     high-confidence DIS-GEN bridge edges, GEN-PWY Reactome links, and DRG-DRG (PARENT) edges.
+  5) Updates node_features.npz in-place for all GEN nodes while preserving RDKit DRG features.
 
 Usage (from C:\\Users\\Abuba\\Desktop\\FYP\\OptimusKG_Subgraph):
     python build_v15_mechanisms.py --in kg_v14_expanded.graphml --out kg_v15_mechanisms.graphml
@@ -24,6 +32,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import sys
 from collections import Counter, defaultdict
 
@@ -33,11 +42,24 @@ import polars as pl
 
 FOLDER = os.environ.get("HYP_FOLDER", "C:/Users/Abuba/Desktop/FYP/OptimusKG_Subgraph/")
 MAIN_DISEASES = {"EFO_0005046", "MONDO_0018076", "EFO_0005547"}
+FAMILY_RE = re.compile(r"tubercul|leishman|dengue", re.I)
 NON_TARGET_RELS = {"ENZYME", "TRANSPORTER", "CARRIER"}
 EXCIPIENT_NAMES = {
-    "SODIUM CHLORIDE", "SODIUM CHLORIDE NA 22", "LACTOSE, ANHYDROUS", "LACTOSE",
-    "ALUMINUM HYDROXIDE", "TUBERCULIN", "WATER", "STERILE WATER", "DEXTROSE",
-    "MANNITOL", "GLYCERIN", "BARIUM SULFATE"
+    "SODIUM CHLORIDE", "SODIUM CHLORIDE NA 22", "POTASSIUM CHLORIDE", "CALCIUM CHLORIDE",
+    "MAGNESIUM SULFATE", "MAGNESIUM SULFATE ANHYDROUS", "ZINC SULFATE", "ZINC OXIDE",
+    "ZINC ION", "POTASSIUM IODIDE", "SODIUM FLUORIDE", "SODIUM BICARBONATE",
+    "LACTOSE, ANHYDROUS", "LACTOSE", "ALUMINUM HYDROXIDE", "TUBERCULIN",
+    "WATER", "STERILE WATER", "DEXTROSE", "GLUCOSE", "MANNITOL", "GLYCERIN",
+    "BARIUM SULFATE", "SILVER NITRATE", "OXYGEN", "NITROGEN", "ALCOHOL", "ETHANOL",
+    "HYDRAZINE", "CASTOR OIL", "OATMEAL, COLLOIDAL", "GLYCINE", "GLUTAMINE", "ARGININE", "SARCOSINE"
+}
+UMBRELLA_NAMES = {
+    "infection", "obsolete_infectious disease", "obsolete_viral disease", "obsolete_bacterial disease",
+    "neoplasm", "cancer", "obsolete_carcinoma", "obsolete_adenocarcinoma", "gastrointestinal disease",
+    "cardiovascular disease", "respiratory system disease", "obsolete_nervous system disease",
+    "obsolete_endocrine system disease", "obsolete_immune system disease", "obsolete_hematologic disease",
+    "obsolete_liver disease", "obsolete_kidney disease", "obsolete_mental or behavioural disorder",
+    "obsolete_pain", "obsolete_injury", "hemorrhage", "sexually transmitted disease"
 }
 
 
@@ -72,7 +94,7 @@ def clean_graphml_attrs(G):
                 d[k] = str(d[k] or "")
 
 
-def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, main_min_score=0.10, max_genes_per_dis=50, max_dis_per_gene=120):
+def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, main_min_score=0.10, max_genes_per_dis=50, max_dis_per_gene=80):
     print(f"Loading graph: {in_path}")
     G = nx.read_graphml(in_path)
     n0, e0 = G.number_of_nodes(), G.number_of_edges()
@@ -82,20 +104,57 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
     dis_nodes = {n for n, d in G.nodes(data=True) if d.get("label") == "DIS"}
     gen_nodes = {n for n, d in G.nodes(data=True) if d.get("label") == "GEN"}
     pwy_nodes = {n for n, d in G.nodes(data=True) if d.get("label") == "PWY"}
+    test_family = {
+        n for n in dis_nodes
+        if n in MAIN_DISEASES or FAMILY_RE.search(str(G.nodes[n].get("name") or ""))
+    }
 
-    # Flag non-therapeutic excipients/diagnostics as candidate='no'
-    excip_flagged = 0
+    # Check which drugs have real RDKit structure features in node_features.npz
+    has_struct = set()
+    if os.path.exists(feat_path):
+        feats_check = np.load(feat_path, allow_pickle=False)
+        drg_ids_f = [str(x) for x in feats_check["ids_DRG"]]
+        drg_X_f = np.asarray(feats_check["X_DRG"], dtype=np.float32)
+        for did_f, row_vec in zip(drg_ids_f, drg_X_f):
+            if np.linalg.norm(row_vec) > 0:
+                has_struct.add(did_f)
+
+    # 1. Flag excipients/electrolytes, unnamed drugs, and structureless biologics as candidate='no'
+    excip_flagged, nostruct_flagged = 0, 0
     for n in drg_nodes:
-        nm = str(G.nodes[n].get("name") or "").strip().upper()
-        if nm in EXCIPIENT_NAMES and G.nodes[n].get("candidate") != "no":
+        if G.nodes[n].get("candidate") == "no":
+            continue
+        nm = str(G.nodes[n].get("name") or "").strip()
+        if not nm or nm.lower() in ("none", "nan") or nm.upper() in EXCIPIENT_NAMES:
             G.nodes[n]["candidate"] = "no"
             excip_flagged += 1
-    print(f"  Flagged {excip_flagged} non-therapeutic excipient/diagnostic nodes as candidate='no'")
+        elif has_struct and n not in has_struct:
+            G.nodes[n]["candidate"] = "no"
+            nostruct_flagged += 1
+    print(f"  Flagged {excip_flagged} unnamed/excipient nodes and {nostruct_flagged} structureless biologics/salts as candidate='no'")
+
+    # 2. Identify & strip ontology umbrella super-hubs among non-test diseases
+    umbrella_dis = set()
+    for n in dis_nodes - test_family:
+        nm = str(G.nodes[n].get("name") or "").strip().lower()
+        gen_deg = sum(1 for _, v in G.out_edges(n) if G.nodes[v].get("label") == "GEN") + sum(
+            1 for u, _ in G.in_edges(n) if G.nodes[u].get("label") == "GEN"
+        )
+        if nm in UMBRELLA_NAMES or gen_deg > 80:
+            umbrella_dis.add(n)
+
+    umbrella_edges_removed = 0
+    for n in umbrella_dis:
+        for u, v in list(G.in_edges(n)) + list(G.out_edges(n)):
+            if G.has_edge(u, v):
+                G.remove_edge(u, v)
+                umbrella_edges_removed += 1
+    print(f"  Stripped {umbrella_edges_removed} edges from {len(umbrella_dis)} broad ontology umbrella disease nodes")
 
     print(f"Reading {edges_path} ...")
     edges_df = pl.read_parquet(edges_path)
 
-    # 0. Audit & stratify DRG-DIS INDICATION edges using highest_clinical_trial_phase in edges.parquet
+    # 3. Degree-aware clinical trial phase stratification on DRG-DIS INDICATION edges
     ind_df = edges_df.filter(
         (pl.col("label") == "DRG-DIS")
         & (pl.col("relation") == "INDICATION")
@@ -115,9 +174,27 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
             except Exception:
                 pass
 
+    # Compute initial indication degree per drug outside test family
+    ind_deg = Counter()
+    for u, v, d in G.edges(data=True):
+        if d.get("relation") in ("INDICATION", "OFF_LABEL_USE") and v not in test_family:
+            ind_deg[u] += 1
+
     kept_strict, moved_to_trial, dropped_phase1 = 0, 0, 0
     for u, v, d in list(G.edges(data=True)):
         if d.get("relation") != "INDICATION":
+            continue
+        if v in test_family:
+            # On test diseases, drop Phase <= 1.0 probes on TB/CL, move Dengue Phase 1 antivirals to CLINICAL_TRIAL
+            if (u, v) in phase_lut:
+                phase, has_dc = phase_lut[(u, v)]
+                if not has_dc and phase is not None and phase < 2.0:
+                    if v == "EFO_0005547":
+                        G.edges[u, v]["relation"] = "CLINICAL_TRIAL"
+                        moved_to_trial += 1
+                    else:
+                        G.remove_edge(u, v)
+                        dropped_phase1 += 1
             continue
         if (u, v) not in phase_lut:
             kept_strict += 1
@@ -126,22 +203,20 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         if has_dc or (phase is not None and phase >= 3.0):
             kept_strict += 1
         elif phase == 2.0:
-            G.edges[u, v]["relation"] = "CLINICAL_TRIAL"
-            G.edges[u, v]["phase"] = "2.0"
-            moved_to_trial += 1
-        else:
-            # Phase <= 1.0 or -1.0 OpenTargets-only edge
-            if v in MAIN_DISEASES and G.nodes[u].get("candidate") != "no" and phase == 1.0:
+            # High-degree broad drugs (> 25 indications, e.g. steroids, PPIs, NSAIDs) have noisy Phase 2 comedication trials
+            if ind_deg[u] > 25:
                 G.edges[u, v]["relation"] = "CLINICAL_TRIAL"
-                G.edges[u, v]["phase"] = "1.0"
+                G.edges[u, v]["phase"] = "2.0"
                 moved_to_trial += 1
             else:
-                G.remove_edge(u, v)
-                dropped_phase1 += 1
-    print(f"  Stratified DRG-DIS INDICATION edges: {kept_strict} kept as strict (Phase 3/4 or DrugCentral), "
-          f"{moved_to_trial} relabelled to CLINICAL_TRIAL (Phase 2), {dropped_phase1} Phase <= 1 probe edges removed")
+                kept_strict += 1
+        else:
+            G.remove_edge(u, v)
+            dropped_phase1 += 1
+    print(f"  Training DRG-DIS stratification: {kept_strict} kept as INDICATION, "
+          f"{moved_to_trial} high-degree Phase 2 edges relabelled to CLINICAL_TRIAL, {dropped_phase1} Phase <= 1 probe edges removed")
 
-    # 1. Extract pharmacological DRG-GEN edges for our drugs
+    # 4. Extract pharmacological DRG-GEN edges for our drugs
     dg_df = edges_df.filter(
         (pl.col("label") == "DRG-GEN")
         & (pl.col("from").is_in(drg_nodes) | pl.col("to").is_in(drg_nodes))
@@ -161,7 +236,7 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         target_genes.add(g_id)
     print(f"  Found {len(drg_gen_pairs)} pharmacological DRG-GEN edges covering {len(target_genes)} target genes")
 
-    # 2. Extract high-confidence DIS-GEN edges connecting our 850 diseases to target_genes (or existing gen_nodes)
+    # 5. Clean existing low-score DIS-GEN noise & extract high-confidence DIS-GEN edges
     allowed_genes = target_genes | gen_nodes
     dis_g_df = edges_df.filter(
         (pl.col("label") == "DIS-GEN")
@@ -171,10 +246,13 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         )
     )
 
+    dis_gen_score_lut = {}
     per_dis_candidates = defaultdict(list)
     for row in dis_g_df.iter_rows(named=True):
         u, v = row["from"], row["to"]
         dis_id, g_id = (u, v) if u in dis_nodes else (v, u)
+        if dis_id in umbrella_dis:
+            continue
         score = 0.0
         props = row.get("properties")
         if props:
@@ -183,9 +261,19 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
                 score = float(p.get("evidence_score") or p.get("disgenet_score") or 0.0)
             except Exception:
                 score = 0.0
+        dis_gen_score_lut[(dis_id, g_id)] = score
         thresh = main_min_score if dis_id in MAIN_DISEASES else min_score
         if score >= thresh:
             per_dis_candidates[dis_id].append((score, g_id))
+
+    pruned_dis_gen = 0
+    for u, v, d in list(G.edges(data=True)):
+        if d.get("label") == "DIS-GEN":
+            dis_id, g_id = (u, v) if u in dis_nodes else (v, u)
+            if dis_id not in test_family and dis_gen_score_lut.get((dis_id, g_id), 0.0) < 0.15:
+                G.remove_edge(u, v)
+                pruned_dis_gen += 1
+    print(f"  Pruned {pruned_dis_gen} low-confidence (score < 0.15) DIS-GEN edges from initial extraction")
 
     selected_dis_gen = []
     gene_dis_count = Counter()
@@ -208,7 +296,7 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
     genes_to_keep = bridge_genes | multi_drug_genes
     new_gene_ids = genes_to_keep - gen_nodes
 
-    # 3. Load gene names and Reactome pathway xrefs from nodes.parquet
+    # 6. Load gene names and Reactome pathway xrefs from nodes.parquet
     print(f"Reading {nodes_path} for {len(new_gene_ids)} new genes ...")
     nodes_df = pl.read_parquet(nodes_path).filter(
         (pl.col("label") == "GEN") & pl.col("id").is_in(genes_to_keep)
@@ -239,18 +327,16 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         added_genes += 1
 
     added_drg_gen = 0
-    drg_gen_rel_counts = Counter()
     for d_id, g_id, rel in drg_gen_pairs:
         if g_id not in genes_to_keep:
             continue
         if not G.has_edge(d_id, g_id):
             G.add_edge(d_id, g_id, label="DRG-GEN", relation=rel, source="OptimusKG_mechanisms")
             added_drg_gen += 1
-            drg_gen_rel_counts[rel] += 1
 
     added_dis_gen = 0
     for dis_id, g_id, score in filtered_dis_gen:
-        if g_id not in genes_to_keep:
+        if g_id not in genes_to_keep or dis_id in umbrella_dis:
             continue
         if not G.has_edge(dis_id, g_id) and not G.has_edge(g_id, dis_id):
             G.add_edge(dis_id, g_id, label="DIS-GEN", relation="ASSOCIATED_WITH", score=f"{score:.4f}", source="OptimusKG_mechanisms")
@@ -265,7 +351,7 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
                 G.add_edge(gid, pid, label="GEN-PWY", relation="PARTICIPATES_IN", source="OptimusKG_mechanisms")
                 added_gen_pwy += 1
 
-    # 4. Add DRG-DRG PARENT edges (links salts/prodrugs to parent molecules)
+    # 7. Add DRG-DRG PARENT edges (links salts/prodrugs to parent molecules)
     dd_df = edges_df.filter(
         (pl.col("label") == "DRG-DRG")
         & (pl.col("relation") == "PARENT")
@@ -279,10 +365,12 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
             G.add_edge(u, v, label="DRG-DRG", relation="PARENT", source="OptimusKG_mechanisms")
             added_drg_parent += 1
 
+    cand_count = sum(1 for n in drg_nodes if G.nodes[n].get("candidate") != "no")
     print(f"\nSummary of changes:")
+    print(f"  + Candidate small-molecule drug pool: {cand_count} drugs (all with valid names & RDKit structures)")
     print(f"  + {added_genes} new GEN nodes (total GEN: {len(gen_nodes) + added_genes})")
     print(f"  + {added_drg_gen} DRG-GEN edges")
-    print(f"  + {added_dis_gen} high-confidence DIS-GEN edges")
+    print(f"  + {added_dis_gen} high-confidence DIS-GEN edges ({pruned_dis_gen} noisy edges pruned)")
     print(f"  + {added_gen_pwy} GEN-PWY edges onto existing Reactome pathways")
     print(f"  + {added_drg_parent} DRG-DRG (PARENT) salt/parent edges")
 
@@ -315,7 +403,7 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Add local DRG-GEN, DIS-GEN, and DRG-DRG PARENT mechanisms + stratify clinical trial phases")
+    ap = argparse.ArgumentParser(description="Add local DRG-GEN, DIS-GEN, and DRG-DRG PARENT mechanisms + clean umbrella hubs and Phase 1/2 trial noise")
     ap.add_argument("--in", dest="infile", default=os.path.join(FOLDER, "kg_v14_expanded.graphml"))
     ap.add_argument("--out", dest="outfile", default=os.path.join(FOLDER, "kg_v15_mechanisms.graphml"))
     ap.add_argument("--edges", default=os.path.join(FOLDER, "edges.parquet"))

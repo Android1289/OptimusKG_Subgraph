@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 """
-train_gnn.py : train and evaluate the HYPOTHESIS drug-repurposing GNN (heterogeneous GraphSAGE).
+train_gnn.py : train, evaluate, and audit the HYPOTHESIS drug-repurposing GNN (heterogeneous GraphSAGE).
 
     python train_gnn.py --smoke                       # 1) FIRST: tiny synthetic run, checks PyG works (seconds)
     python train_gnn.py                               # 2) newest kg_v15_mechanisms / kg_v14_expanded + node_features.npz
     python train_gnn.py --graph kg_v15_mechanisms.graphml --epochs 200 --seed 0
     python train_gnn.py --graph kg_v15_mechanisms.graphml --neg-alpha 0.5 --cosine --seed 0
 
-Needs node_features.npz built from the SAME graph (build_v15_mechanisms.py or build_features.py).
+Built-in validation audit features:
+  * Compares GNN against the degree-based popularity baseline on both held-out validation and zero-shot test sets.
+  * Computes Pearson r and Spearman rho correlation between drug training degree and GNN prediction score.
+  * Deduplicates related salt/stereoisomer formulations (via DRG-DRG PARENT links and base active-ingredient names)
+    and writes explicit multi-hop mechanism paths (shared target genes, pathways, and disease bridges) into the CSV.
 """
 import argparse
 import csv
@@ -29,15 +33,14 @@ MAIN = {"EFO_0005046": "Cutaneous Leishmaniasis", "MONDO_0018076": "Tuberculosis
 FAMILY_RE = re.compile(r"tubercul|leishman|dengue", re.I)
 TREATS = {"INDICATION", "OFF_LABEL_USE"}
 REL_RENAME = {"CONTRAINDICATION": "contraindicated", "CLINICAL_TRIAL": "trial", "LITERATURE_CANDIDATE": "literature"}
-EXCIPIENT_NAMES = {
-    "SODIUM CHLORIDE", "SODIUM CHLORIDE NA 22", "POTASSIUM CHLORIDE", "CALCIUM CHLORIDE",
-    "MAGNESIUM SULFATE", "MAGNESIUM SULFATE ANHYDROUS", "ZINC SULFATE", "ZINC OXIDE",
-    "ZINC ION", "POTASSIUM IODIDE", "SODIUM FLUORIDE", "SODIUM BICARBONATE",
-    "LACTOSE, ANHYDROUS", "LACTOSE", "ALUMINUM HYDROXIDE", "TUBERCULIN",
-    "WATER", "STERILE WATER", "DEXTROSE", "GLUCOSE", "MANNITOL", "GLYCERIN",
-    "BARIUM SULFATE", "SILVER NITRATE", "OXYGEN", "NITROGEN", "ALCOHOL", "ETHANOL",
-    "HYDRAZINE", "CASTOR OIL", "OATMEAL, COLLOIDAL", "GLYCINE", "GLUTAMINE", "ARGININE", "SARCOSINE"
-}
+SALT_WORDS = re.compile(
+    r"\b(HYDROCHLORIDE|DIHYDROCHLORIDE|SULFATE|PHOSPHATE|ACETATE|SODIUM|POTASSIUM|CALCIUM|"
+    r"MAGNESIUM|FUMARATE|MALEATE|MESYLATE|TARTRATE|CITRATE|SUCCINATE|BESYLATE|BROMIDE|"
+    r"CHLORIDE|NITRATE|PROPIONATE|VALERATE|ACETONIDE|DIPROPIONATE|BUTYRATE|FUROATE|"
+    r"PIVALATE|HEXACETONIDE|ANHYDROUS|MONOHYDRATE|DIHYDRATE|TRIHYDRATE|DISODIUM|FUMARATE)\b",
+    re.I,
+)
+STEREO_PREFIX = re.compile(r"^(DEX|LEVO|ES)(?=[A-Z]{4,})", re.I)
 TOP_K_CSV = 100
 
 
@@ -46,6 +49,26 @@ TOP_K_CSV = 100
 # ----------------------------------------------------------------------------
 def clean(s):
     return re.sub(r"_+", "_", re.sub(r"[^a-z0-9_]+", "_", str(s).lower())).strip("_") or "edge"
+
+
+def canonical_drug_family(name):
+    """Normalizes salt suffixes and enantiomer prefixes (e.g. Esomeprazole -> Omeprazole, Levoketoconazole -> Ketoconazole)."""
+    s = str(name or "").upper().strip()
+    s = re.sub(r"[,()/+-]", " ", s)
+    s = SALT_WORDS.sub(" ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    if s in ("ESOMEPRAZOLE", "OMEPRAZOLE"):
+        return "OMEPRAZOLE"
+    if s in ("DEXLANSOPRAZOLE", "LANSOPRAZOLE"):
+        return "LANSOPRAZOLE"
+    if s in ("LEVOKETOCONAZOLE", "KETOCONAZOLE"):
+        return "KETOCONAZOLE"
+    if s in ("ISOTRETINOIN", "ALITRETINOIN", "TRETINOIN", "RETINOL"):
+        return "RETINOID_VITAMIN_A"
+    if s in ("CHOLECALCIFEROL", "ERGOCALCIFEROL", "CALCITRIOL", "ALFACALCIDOL"):
+        return "VITAMIN_D_ANALOG"
+    s = STEREO_PREFIX.sub("", s)
+    return s or "UNKNOWN"
 
 
 def prepare(G, feats, drop_rels=()):
@@ -142,6 +165,22 @@ def popularity(pos_train, n_drug):
     return np.bincount(pos_train[0], minlength=n_drug).astype(np.float64)
 
 
+def spearman_corr(x, y):
+    rx = np.argsort(np.argsort(x)).astype(np.float64)
+    ry = np.argsort(np.argsort(y)).astype(np.float64)
+    rx -= rx.mean()
+    ry -= ry.mean()
+    denom = np.linalg.norm(rx) * np.linalg.norm(ry)
+    return float((rx @ ry) / denom) if denom > 0 else 0.0
+
+
+def pearson_corr(x, y):
+    vx = np.asarray(x, dtype=np.float64) - np.mean(x)
+    vy = np.asarray(y, dtype=np.float64) - np.mean(y)
+    denom = np.linalg.norm(vx) * np.linalg.norm(vy)
+    return float((vx @ vy) / denom) if denom > 0 else 0.0
+
+
 def eval_val(zd, zs, val, known, pop):
     rm, rp = [], []
     for d, s in val.T:
@@ -184,26 +223,107 @@ def print_table(title, rows):
               f"{m['H@100']:>6.2f} {m['median_rank']:>9.1f}")
 
 
-def write_predictions(zd, zs, D, G, outdir, tag):
+def explain_drug_disease_path(G, drug_id, dis_id, family_set):
+    """Builds a concise human-readable summary of 2-hop target, 3-hop pathway, and disease bridges."""
+    d_targets = {v for _, v in G.out_edges(drug_id) if G.nodes[v].get("label") == "GEN"} | {
+        u for u, _ in G.in_edges(drug_id) if G.nodes[u].get("label") == "GEN"
+    }
+    dis_genes = {v for _, v in G.out_edges(dis_id) if G.nodes[v].get("label") == "GEN"} | {
+        u for u, _ in G.in_edges(dis_id) if G.nodes[u].get("label") == "GEN"
+    }
+    direct_genes = sorted(str(G.nodes[g].get("name") or g) for g in (d_targets & dis_genes))
+
+    shared_pwys = set()
+    for g1 in d_targets:
+        p1 = {v for _, v in G.out_edges(g1) if G.nodes[v].get("label") == "PWY"}
+        for g2 in dis_genes:
+            p2 = {v for _, v in G.out_edges(g2) if G.nodes[v].get("label") == "PWY"}
+            for p in p1 & p2:
+                shared_pwys.add(f"{G.nodes[g1].get('name', g1)}->{G.nodes[p].get('name', p)[:28]}<-{G.nodes[g2].get('name', g2)}")
+
+    best_dis_bridges = []
+    for _, od in G.out_edges(drug_id):
+        if G.nodes[od].get("label") == "DIS" and od not in family_set:
+            od_genes = {v for _, v in G.out_edges(od) if G.nodes[v].get("label") == "GEN"} | {
+                u for u, _ in G.in_edges(od) if G.nodes[u].get("label") == "GEN"
+            }
+            ov = od_genes & dis_genes
+            if ov:
+                best_dis_bridges.append((len(ov), str(G.nodes[od].get("name") or od)))
+    best_dis_bridges.sort(reverse=True)
+
+    parts = [f"n_targets={len(d_targets)}"]
+    if direct_genes:
+        parts.append(f"shared_genes={','.join(direct_genes[:4])}")
+    if shared_pwys:
+        parts.append(f"pathways({len(shared_pwys)})={'; '.join(sorted(shared_pwys)[:2])}")
+    if best_dis_bridges:
+        top_b = [f"{nm[:24]}({c}g)" for c, nm in best_dis_bridges[:2]]
+        parts.append(f"disease_bridge={', '.join(top_b)}")
+    return " | ".join(parts)
+
+
+def write_predictions(zd, zs, D, G, outdir, tag, pop):
+    # Build parent connected components from DRG-DRG PARENT edges so salts/prodrugs map to one group
+    parent_uf = {n: n for n in D["ids"]["DRG"]}
+
+    def find_root(x):
+        while parent_uf[x] != x:
+            parent_uf[x] = parent_uf[parent_uf[x]]
+            x = parent_uf[x]
+        return x
+
+    for u, v, d in G.edges(data=True):
+        if d.get("relation") == "PARENT" and u in parent_uf and v in parent_uf:
+            ru, rv = find_root(u), find_root(v)
+            if ru != rv:
+                parent_uf[ru] = rv
+
+    corr_summary = {}
+    print("\nDegree vs. Score Correlation Audit & Top-100 Deduplicated Predictions:")
     for did, name in D["main"].items():
         s = D["index"]["DIS"][did]
         scores = zd @ zs[s]
+        r_p = pearson_corr(pop, scores)
+        r_s = spearman_corr(pop, scores)
+        corr_summary[name] = {"pearson_r": round(r_p, 4), "spearman_rho": round(r_s, 4)}
+        print(f"  {name:26} | degree-score Pearson r = {r_p:+.3f}, Spearman rho = {r_s:+.3f}")
+
         sets, _ = test_sets(D, did)
         status = {}
         for k, ds in sets.items():
             for d in ds:
                 status.setdefault(d, k.split(" ")[0])
-        top = np.argsort(-scores)[:TOP_K_CSV]
+
+        # Rank all drugs, deduplicating salt/stereoisomer formulations so top-100 has unique active ingredients
+        order = np.argsort(-scores)
+        seen_families = set()
+        top = []
+        for d in order:
+            did_str = D["ids"]["DRG"][d]
+            dname = D["names"]["DRG"][d]
+            fam_key = (find_root(did_str), canonical_drug_family(dname))
+            base_key = canonical_drug_family(dname)
+            if fam_key in seen_families or base_key in seen_families:
+                continue
+            seen_families.add(fam_key)
+            seen_families.add(base_key)
+            top.append(d)
+            if len(top) >= TOP_K_CSV:
+                break
+
         path = os.path.join(outdir, f"predictions_{clean(name)}_{tag}.csv")
         with open(path, "w", newline="", encoding="utf-8") as f:
             w = csv.writer(f)
-            w.writerow(["rank", "drug_id", "drug_name", "score", "already_known_as", "excipient_flag"])
+            w.writerow(["rank", "drug_id", "drug_name", "score", "train_deg", "already_known_as", "mechanism_summary"])
             for r, d in enumerate(top, 1):
+                did_str = D["ids"]["DRG"][d]
                 dname = D["names"]["DRG"][d]
-                excip = "yes" if dname.strip().upper() in EXCIPIENT_NAMES else ""
-                w.writerow([r, D["ids"]["DRG"][d], dname, f"{scores[d]:.4f}", status.get(int(d), ""), excip])
+                mech = explain_drug_disease_path(G, did_str, did, D["family"]) if not os.path.basename(outdir).startswith("tmp") else ""
+                w.writerow([r, did_str, dname, f"{scores[d]:.4f}", int(pop[d]), status.get(int(d), ""), mech])
         novel = sum(1 for d in top if int(d) not in status)
-        print(f"  {path}  ({novel} of the top {TOP_K_CSV} are not already known for {name})")
+        print(f"    -> {path}  ({novel} of top {len(top)} unique drugs are novel for {name})")
+    return corr_summary
 
 
 # ----------------------------------------------------------------------------
@@ -255,7 +375,6 @@ def run_training(D, args, outdir, tag):
     pop = popularity(pos_train, D["n_drug"])
     print(f"Positives: {pos_train.shape[1]} train | {pos_val.shape[1]} validation")
 
-    # Negative sampling distribution: uniform if neg_alpha == 0, else 50% uniform + 50% deg^alpha
     if args.neg_alpha > 0:
         w_deg = np.power(pop + 1.0, args.neg_alpha)
         w_deg /= w_deg.sum()
@@ -434,14 +553,13 @@ def main():
     for k, v in test.items():
         rows += [(f"{k} [GNN]", v["gnn"]), (f"{k} [popularity]", v["popularity"])]
     print_table(f"ZERO-SHOT TEST (rank among {D['n_drug']} candidate drugs; random H@10 = {10 / D['n_drug']:.3f})", rows)
-    print("\nTop-100 predictions per test disease:")
-    write_predictions(zd, zs, D, G, outdir, tag)
+    corr_summary = write_predictions(zd, zs, D, G, outdir, tag, pop)
 
     import torch
     torch.save(state, os.path.join(outdir, f"best_model_{tag}.pt"))
     with open(os.path.join(outdir, f"results_{tag}_seed{args.seed}.json"), "w") as f:
         json.dump({"args": vars(args), "validation": {"gnn": mv, "popularity": mp_}, "test": test,
-                   "family": sorted(D["family"])}, f, indent=2)
+                   "degree_score_correlation": corr_summary, "family": sorted(D["family"])}, f, indent=2)
     print(f"\nSaved results_{tag}_seed{args.seed}.json and best_model_{tag}.pt in {outdir}")
     if args.smoke:
         print("SMOKE TEST OK: the pipeline runs end to end. Now run it without --smoke.")

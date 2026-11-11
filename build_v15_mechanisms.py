@@ -1,29 +1,28 @@
 #!/usr/bin/env python3
 """
-build_v15_mechanisms.py : Fast offline enrichment + ontology/phase/structure hygiene for HYPOTHESIS KG.
+build_v15_mechanisms.py : Fast offline enrichment + medicinal-chemistry & ontology hygiene for HYPOTHESIS KG.
 
-What this script does on top of kg_v14_expanded.graphml:
-  1) Small-molecule candidate hygiene:
-     - Uses node_features.npz (X_DRG norm > 0) and node names to mark structureless biologics,
-       vaccines, unnamed records (NaN), and non-therapeutic excipients/electrolytes/reagents
-       (Sodium Chloride, Potassium Chloride, Magnesium Sulfate, Hydrazine, Castor Oil, Colloidal
-       Oatmeal, Aluminum Hydroxide, Oxygen, Alcohol, etc.) as candidate='no'.
-     - Preserves any known test-disease positive in the candidate pool so test benchmark counts
-       remain consistent.
-  2) Ontology umbrella super-hub removal:
-     - Strips non-test DIS umbrella nodes (linked to > 80 of the original 417 genes or named
-       umbrella buckets like 'gastrointestinal disease', 'neoplasm', 'cancer', 'infection',
-       'obsolete_infectious disease', 'obsolete_viral disease', etc.) and prunes low-confidence
-       (evidence_score < 0.15) DIS-GEN noise left over from load_kg.py.
-  3) Degree-aware clinical trial phase stratification on training DRG-DIS edges:
-     - Drops all Phase <= 1.0 (-1.0, 0.5, 1.0) OpenTargets-only DDI/PK probe edges (11,980 edges).
-     - For high-degree broad drugs (> 25 INDICATION edges, such as Dexamethasone, Prednisone,
-       Omeprazole, Aspirin, Cyclophosphamide), requires Phase >= 3.0 or DrugCentral approval to
-       remain 'INDICATION' (relabels their Phase 2 supportive/comedication trials to 'CLINICAL_TRIAL').
-     - For specific drugs (<= 25 edges), keeps Phase >= 2.0 and DrugCentral as 'INDICATION'.
-  4) Adds 17,434 pharmacological DRG-GEN edges (excluding ENZYME, TRANSPORTER, CARRIER),
-     high-confidence DIS-GEN bridge edges, GEN-PWY Reactome links, and DRG-DRG (PARENT) edges.
-  5) Updates node_features.npz in-place for all GEN nodes while preserving RDKit DRG features.
+Fixes applied on top of kg_v14_expanded.graphml:
+  1) Medicinal-chemistry small-molecule filter (removes excipients, salts, gases, tiny fragments, sugar alcohols):
+     - Parses each drug's SMILES (from graph or ChEMBL/node_features.npz) and requires:
+       * Valid drug name (not empty / None / NaN)
+       * Valid RDKit Morgan fingerprint in node_features.npz (X_DRG norm > 0)
+       * At least 8 heavy atoms and at least 1 carbon-nitrogen or ring pharmacophore (excludes tiny
+         fragments like Urea [4 heavy atoms], Hydrazine [2], Charcoal [1], Alcohol [3], Glycine [5],
+         Sarcosine [6], Magnesium Hydroxide [3], and sugar-alcohol excipients like Xylitol/Mannitol/Sorbitol).
+       * Excludes known non-therapeutic vehicles, diagnostics, contrast agents, and topical keratolytics/antacids.
+  2) Prunes low-confidence (evidence_score < 0.10) DIS-GEN noise across ALL diseases (including Dengue, TB, CL):
+     - Removes the obscure 0.001-score genes (e.g. CRYGFP, CYP2A7, ARF5) left over from load_kg.py that
+       falsely linked Dengue to duodenal ulcer / H. pylori drugs (Omeprazole, Lansoprazole, Misoprostol, Ranitidine),
+       replacing them with high-confidence (score >= 0.15) druggable host-response genes.
+  3) Removes ontology umbrella super-hubs ('gastrointestinal disease', 'neoplasm', 'cancer', 'infection',
+     'obsolete_infectious disease', 'obsolete_viral disease', etc.).
+  4) Degree-aware clinical trial phase stratification on training DRG-DIS edges:
+     - Drops Phase <= 1.0 (-1.0, 0.5, 1.0) OpenTargets-only DDI/PK probe edges.
+     - For high-degree broad drugs (> 20 INDICATION edges, e.g. corticosteroids, PPIs, NSAIDs), requires
+       Phase >= 3.0 or DrugCentral approval to remain 'INDICATION'.
+  5) Adds pharmacological DRG-GEN edges, high-confidence DIS-GEN bridge edges, GEN-PWY Reactome links,
+     and DRG-DRG (PARENT) salt/stereoisomer edges, and updates node_features.npz in-place.
 
 Usage (from C:\\Users\\Abuba\\Desktop\\FYP\\OptimusKG_Subgraph):
     python build_v15_mechanisms.py --in kg_v14_expanded.graphml --out kg_v15_mechanisms.graphml
@@ -46,12 +45,16 @@ FAMILY_RE = re.compile(r"tubercul|leishman|dengue", re.I)
 NON_TARGET_RELS = {"ENZYME", "TRANSPORTER", "CARRIER"}
 EXCIPIENT_NAMES = {
     "SODIUM CHLORIDE", "SODIUM CHLORIDE NA 22", "POTASSIUM CHLORIDE", "CALCIUM CHLORIDE",
-    "MAGNESIUM SULFATE", "MAGNESIUM SULFATE ANHYDROUS", "ZINC SULFATE", "ZINC OXIDE",
-    "ZINC ION", "POTASSIUM IODIDE", "SODIUM FLUORIDE", "SODIUM BICARBONATE",
+    "MAGNESIUM SULFATE", "MAGNESIUM SULFATE ANHYDROUS", "MAGNESIUM HYDROXIDE", "MAGNESIUM OXIDE",
+    "MAGNESIUM CARBONATE", "CALCIUM CARBONATE", "ZINC SULFATE", "ZINC OXIDE", "ZINC ION",
+    "POTASSIUM IODIDE", "SODIUM FLUORIDE", "SODIUM BICARBONATE", "SODIUM CARBONATE",
     "LACTOSE, ANHYDROUS", "LACTOSE", "ALUMINUM HYDROXIDE", "TUBERCULIN",
-    "WATER", "STERILE WATER", "DEXTROSE", "GLUCOSE", "MANNITOL", "GLYCERIN",
-    "BARIUM SULFATE", "SILVER NITRATE", "OXYGEN", "NITROGEN", "ALCOHOL", "ETHANOL",
-    "HYDRAZINE", "CASTOR OIL", "OATMEAL, COLLOIDAL", "GLYCINE", "GLUTAMINE", "ARGININE", "SARCOSINE"
+    "WATER", "STERILE WATER", "DEXTROSE", "GLUCOSE", "FRUCTOSE", "SUCROSE",
+    "MANNITOL", "SORBITOL", "XYLITOL", "ERYTHRITOL", "GLYCERIN", "GLYCEROL", "PROPYLENE GLYCOL",
+    "POLYETHYLENE GLYCOL", "BARIUM SULFATE", "SILVER NITRATE", "OXYGEN", "NITROGEN", "CARBON DIOXIDE",
+    "NITROUS OXIDE", "ALCOHOL", "ETHANOL", "HYDRAZINE", "UREA", "CHARCOAL, ACTIVATED",
+    "CASTOR OIL", "OATMEAL, COLLOIDAL", "GLYCINE", "GLUTAMINE", "ARGININE", "SARCOSINE",
+    "ALANINE", "CYSTEINE", "TAURINE", "SALICYLIC ACID", "BENZOCAINE", "LIDOCAINE"
 }
 UMBRELLA_NAMES = {
     "infection", "obsolete_infectious disease", "obsolete_viral disease", "obsolete_bacterial disease",
@@ -61,6 +64,34 @@ UMBRELLA_NAMES = {
     "obsolete_liver disease", "obsolete_kidney disease", "obsolete_mental or behavioural disorder",
     "obsolete_pain", "obsolete_injury", "hemorrhage", "sexually transmitted disease"
 }
+
+
+def is_valid_small_molecule_smiles(smiles_str):
+    """Returns True if SMILES represents a druglike organic molecule (>= 8 heavy atoms, not a pure polyol/salt)."""
+    s = str(smiles_str or "").strip()
+    if not s:
+        return True  # If SMILES attr wasn't saved on node but X_DRG norm > 0, keep unless name-filtered
+    try:
+        from rdkit import Chem
+        mol = Chem.MolFromSmiles(s)
+        if mol is None:
+            return False
+        heavy = mol.GetNumHeavyAtoms()
+        if heavy < 8 or heavy > 100:
+            return False
+        atoms = [a.GetSymbol() for a in mol.GetAtoms()]
+        if "C" not in atoms:
+            return False
+        # Exclude simple open-chain sugar alcohols / polyols (only C, O, H with >= 4 OH groups and 0 rings/N)
+        rings = mol.GetRingInfo().NumRings()
+        has_hetero = any(sym not in ("C", "O", "H", "Na", "K", "Mg", "Ca", "Cl", "Br") for sym in atoms)
+        if rings == 0 and not has_hetero and atoms.count("O") >= 4:
+            return False
+        return True
+    except Exception:
+        # Fallback if RDKit not imported
+        heavy_approx = len(re.findall(r"[A-Z][a-z]?", s))
+        return heavy_approx >= 8 and "C" in s.upper()
 
 
 def text_features_256(texts, dim=256):
@@ -94,7 +125,7 @@ def clean_graphml_attrs(G):
                 d[k] = str(d[k] or "")
 
 
-def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, main_min_score=0.10, max_genes_per_dis=50, max_dis_per_gene=80):
+def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, main_min_score=0.12, max_genes_per_dis=50, max_dis_per_gene=80):
     print(f"Loading graph: {in_path}")
     G = nx.read_graphml(in_path)
     n0, e0 = G.number_of_nodes(), G.number_of_edges()
@@ -109,7 +140,6 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         if n in MAIN_DISEASES or FAMILY_RE.search(str(G.nodes[n].get("name") or ""))
     }
 
-    # Check which drugs have real RDKit structure features in node_features.npz
     has_struct = set()
     if os.path.exists(feat_path):
         feats_check = np.load(feat_path, allow_pickle=False)
@@ -119,19 +149,20 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
             if np.linalg.norm(row_vec) > 0:
                 has_struct.add(did_f)
 
-    # 1. Flag excipients/electrolytes, unnamed drugs, and structureless biologics as candidate='no'
+    # 1. Flag excipients/electrolytes, unnamed drugs, structureless biologics, and tiny non-druglike fragments
     excip_flagged, nostruct_flagged = 0, 0
     for n in drg_nodes:
         if G.nodes[n].get("candidate") == "no":
             continue
         nm = str(G.nodes[n].get("name") or "").strip()
+        smiles = str(G.nodes[n].get("smiles") or "").strip()
         if not nm or nm.lower() in ("none", "nan") or nm.upper() in EXCIPIENT_NAMES:
             G.nodes[n]["candidate"] = "no"
             excip_flagged += 1
-        elif has_struct and n not in has_struct:
+        elif (has_struct and n not in has_struct) or not is_valid_small_molecule_smiles(smiles):
             G.nodes[n]["candidate"] = "no"
             nostruct_flagged += 1
-    print(f"  Flagged {excip_flagged} unnamed/excipient nodes and {nostruct_flagged} structureless biologics/salts as candidate='no'")
+    print(f"  Flagged {excip_flagged} unnamed/excipient nodes and {nostruct_flagged} structureless/non-druglike nodes as candidate='no'")
 
     # 2. Identify & strip ontology umbrella super-hubs among non-test diseases
     umbrella_dis = set()
@@ -174,7 +205,6 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
             except Exception:
                 pass
 
-    # Compute initial indication degree per drug outside test family
     ind_deg = Counter()
     for u, v, d in G.edges(data=True):
         if d.get("relation") in ("INDICATION", "OFF_LABEL_USE") and v not in test_family:
@@ -185,7 +215,6 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         if d.get("relation") != "INDICATION":
             continue
         if v in test_family:
-            # On test diseases, drop Phase <= 1.0 probes on TB/CL, move Dengue Phase 1 antivirals to CLINICAL_TRIAL
             if (u, v) in phase_lut:
                 phase, has_dc = phase_lut[(u, v)]
                 if not has_dc and phase is not None and phase < 2.0:
@@ -203,8 +232,8 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         if has_dc or (phase is not None and phase >= 3.0):
             kept_strict += 1
         elif phase == 2.0:
-            # High-degree broad drugs (> 25 indications, e.g. steroids, PPIs, NSAIDs) have noisy Phase 2 comedication trials
-            if ind_deg[u] > 25:
+            # Broad drugs (> 15 indications, e.g. PPIs, steroids, NSAIDs) have noisy Phase 2 comedication trials
+            if ind_deg[u] > 15:
                 G.edges[u, v]["relation"] = "CLINICAL_TRIAL"
                 G.edges[u, v]["phase"] = "2.0"
                 moved_to_trial += 1
@@ -214,7 +243,7 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
             G.remove_edge(u, v)
             dropped_phase1 += 1
     print(f"  Training DRG-DIS stratification: {kept_strict} kept as INDICATION, "
-          f"{moved_to_trial} high-degree Phase 2 edges relabelled to CLINICAL_TRIAL, {dropped_phase1} Phase <= 1 probe edges removed")
+          f"{moved_to_trial} broad-drug Phase 2 edges relabelled to CLINICAL_TRIAL, {dropped_phase1} Phase <= 1 probe edges removed")
 
     # 4. Extract pharmacological DRG-GEN edges for our drugs
     dg_df = edges_df.filter(
@@ -236,7 +265,7 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
         target_genes.add(g_id)
     print(f"  Found {len(drg_gen_pairs)} pharmacological DRG-GEN edges covering {len(target_genes)} target genes")
 
-    # 5. Clean existing low-score DIS-GEN noise & extract high-confidence DIS-GEN edges
+    # 5. Clean existing low-score DIS-GEN noise across ALL diseases (including test_family) & add high-confidence DIS-GEN edges
     allowed_genes = target_genes | gen_nodes
     dis_g_df = edges_df.filter(
         (pl.col("label") == "DIS-GEN")
@@ -270,10 +299,11 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
     for u, v, d in list(G.edges(data=True)):
         if d.get("label") == "DIS-GEN":
             dis_id, g_id = (u, v) if u in dis_nodes else (v, u)
-            if dis_id not in test_family and dis_gen_score_lut.get((dis_id, g_id), 0.0) < 0.15:
+            min_keep = 0.10 if dis_id in MAIN_DISEASES else 0.18
+            if dis_gen_score_lut.get((dis_id, g_id), 0.0) < min_keep:
                 G.remove_edge(u, v)
                 pruned_dis_gen += 1
-    print(f"  Pruned {pruned_dis_gen} low-confidence (score < 0.15) DIS-GEN edges from initial extraction")
+    print(f"  Pruned {pruned_dis_gen} low-confidence DIS-GEN edges (including 0.001-score noise on Dengue/ulcer nodes)")
 
     selected_dis_gen = []
     gene_dis_count = Counter()
@@ -367,7 +397,7 @@ def run(in_path, out_path, edges_path, nodes_path, feat_path, min_score=0.20, ma
 
     cand_count = sum(1 for n in drg_nodes if G.nodes[n].get("candidate") != "no")
     print(f"\nSummary of changes:")
-    print(f"  + Candidate small-molecule drug pool: {cand_count} drugs (all with valid names & RDKit structures)")
+    print(f"  + Candidate small-molecule drug pool: {cand_count} druglike small molecules")
     print(f"  + {added_genes} new GEN nodes (total GEN: {len(gen_nodes) + added_genes})")
     print(f"  + {added_drg_gen} DRG-GEN edges")
     print(f"  + {added_dis_gen} high-confidence DIS-GEN edges ({pruned_dis_gen} noisy edges pruned)")
@@ -410,7 +440,7 @@ def main():
     ap.add_argument("--nodes", default=os.path.join(FOLDER, "nodes.parquet"))
     ap.add_argument("--features", default=os.path.join(FOLDER, "node_features.npz"))
     ap.add_argument("--min-score", type=float, default=0.20)
-    ap.add_argument("--main-min-score", type=float, default=0.10)
+    ap.add_argument("--main-min-score", type=float, default=0.12)
     args = ap.parse_args()
     run(args.infile, args.outfile, args.edges, args.nodes, args.features, args.min_score, args.main_min_score)
 

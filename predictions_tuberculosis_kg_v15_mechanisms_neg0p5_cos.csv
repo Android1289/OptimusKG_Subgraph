@@ -1,101 +1,101 @@
-rank,drug_id,drug_name,score,already_known_as,excipient_flag
-1,CHEMBL1140,NIACINAMIDE,6.7532,,
-2,CHEMBL717,MEDROXYPROGESTERONE ACETATE,6.7490,trial-stage,
-3,CHEMBL1042,CHOLECALCIFEROL,6.4680,trial-stage,
-4,CHEMBL384467,DEXAMETHASONE,6.1679,strict,
-5,CHEMBL1483,ALBENDAZOLE,6.0323,trial-stage,
-6,CHEMBL129,ZIDOVUDINE,5.9214,trial-stage,
-7,CHEMBL119,TRIMETREXATE,5.8914,,
-8,CHEMBL1536,ERGOCALCIFEROL,5.8882,strict,
-9,CHEMBL1006,AMIFOSTINE,5.7460,,
-10,CHEMBL389621,HYDROCORTISONE,5.4658,trial-stage,
-11,CHEMBL710,FINASTERIDE,5.4435,,
-12,CHEMBL1622,FOLIC ACID,5.4326,trial-stage,
-13,CHEMBL137,METRONIDAZOLE,5.4110,trial-stage,
-14,CHEMBL182,GANCICLOVIR,5.3943,,
-15,CHEMBL36,PYRIMETHAMINE,5.3595,,
-16,CHEMBL870,ALENDRONIC ACID,5.3436,,
-17,CHEMBL986,RETINOL,5.3282,strict,
-18,CHEMBL55,PENTAMIDINE,5.3149,,
-19,CHEMBL1043,DAPSONE,5.1885,,
-20,CHEMBL141,LAMIVUDINE,5.1867,trial-stage,
-21,CHEMBL635,PREDNISONE,5.0417,trial-stage,
-22,CHEMBL131,PREDNISOLONE,5.0411,trial-stage,
-23,CHEMBL924,ZOLEDRONIC ACID ANHYDROUS,4.9597,,
-24,CHEMBL184,ACYCLOVIR,4.9337,,
-25,CHEMBL295698,LEVOKETOCONAZOLE,4.9326,,
-26,CHEMBL319669,PAFURAMIDINE,4.9085,,
-27,CHEMBL467,HYDROXYUREA,4.8617,,
-28,CHEMBL34259,METHOTREXATE,4.8453,,
-29,CHEMBL81,RALOXIFENE,4.8198,,
-30,CHEMBL1201139,MEGESTROL ACETATE,4.7649,,
-31,CHEMBL42336,METHIONINE,4.7575,,
-32,CHEMBL650,METHYLPREDNISOLONE,4.7490,,
-33,CHEMBL1200680,SELENIUM SULFIDE,4.7408,strict,
-34,CHEMBL1617,RIFAXIMIN,4.7152,,
-35,CHEMBL4303669,ZOLEDRONIC ACID,4.6741,,
-36,CHEMBL1200969,DUTASTERIDE,4.6666,,
-37,CHEMBL361506,PENTAMIDINE ISETHIONATE,4.6516,,
-38,CHEMBL1349,VALACYCLOVIR,4.6040,,
-39,CHEMBL790,CHLORHEXIDINE,4.6000,,
-40,CHEMBL25,ASPIRIN,4.5965,trial-stage,
-41,CHEMBL941,IMATINIB,4.5956,trial-stage,
-42,CHEMBL503,LOVASTATIN,4.5615,,
-43,CHEMBL185,FLUOROURACIL,4.5605,,
-44,CHEMBL601,AMINOLEVULINIC ACID,4.5531,,
-45,CHEMBL58,MITOXANTRONE,4.5453,,
-46,CHEMBL1200539,CALCIUM CARBONATE,4.5452,,
-47,CHEMBL44884,ETHAMBUTOL,4.5012,strict,
-48,CHEMBL830,EFLORNITHINE,4.4782,,
-49,CHEMBL529,AZITHROMYCIN,4.4771,trial-stage,
-50,CHEMBL163,RITONAVIR,4.4698,trial-stage,
-51,CHEMBL223228,EFAVIRENZ,4.4324,trial-stage,
-52,CHEMBL1282,IMIQUIMOD,4.4164,,
-53,CHEMBL196,ASCORBIC ACID,4.3972,trial-stage,
-54,CHEMBL2218878,TRIMETREXATE GLUCURONATE,4.3916,,
-55,CHEMBL157101,KETOCONAZOLE,4.3804,,
-56,CHEMBL64,ISONIAZID,4.3649,strict,
-57,CHEMBL1401,NITAZOXANIDE,4.3626,strict,
-58,CHEMBL3621988,TUCIDINOSTAT,4.3401,,
-59,CHEMBL428647,PACLITAXEL,4.3343,,
-60,CHEMBL1129,TRIFLURIDINE,4.3282,,
-61,CHEMBL1082,AMOXICILLIN,4.3218,trial-stage,
-62,CHEMBL38,TRETINOIN,4.3200,trial-stage,
-63,CHEMBL1200796,CYCLOPHOSPHAMIDE,4.2661,strict,
-64,CHEMBL632,BETAMETHASONE,4.2521,,
-65,CHEMBL1201138,LEUCOVORIN CALCIUM,4.2431,,
-66,CHEMBL57,NEVIRAPINE,4.2280,trial-stage,
-67,CHEMBL22,TRIMETHOPRIM,4.2144,strict,
-68,CHEMBL600,ACETYLCYSTEINE,4.2140,strict,
-69,CHEMBL1908361,LEVOLEUCOVORIN CALCIUM,4.1981,,
-70,CHEMBL468,THALIDOMIDE,4.1950,trial-stage,
-71,CHEMBL44657,ETOPOSIDE,4.1830,,
-72,CHEMBL1064,SIMVASTATIN,4.1812,,
-73,CHEMBL1208642,THIOSULFURIC ACID,4.1668,,
-74,CHEMBL1504,TRIAMCINOLONE ACETONIDE,4.1661,,
-75,CHEMBL705,ALITRETINOIN,4.1657,,
-76,CHEMBL1467,ALLOPURINOL,4.1612,,
-77,CHEMBL1655,TOREMIFENE,4.1494,,
-78,CHEMBL960,LEFLUNOMIDE,4.1448,,
-79,CHEMBL112,ACETAMINOPHEN,4.1422,,
-80,CHEMBL877,TRANEXAMIC ACID,4.1368,,
-81,CHEMBL4297604,ACEBILUSTAT,4.0925,,
-82,CHEMBL985,UREA,4.0915,,
-83,CHEMBL88,CYCLOPHOSPHAMIDE ANHYDROUS,4.0888,strict,
-84,CHEMBL1364,PYRIDOXINE,4.0878,trial-stage,
-85,CHEMBL105,MITOMYCIN,4.0872,,
-86,CHEMBL1201334,TRIPTORELIN,4.0780,,
-87,CHEMBL932,DIPYRIDAMOLE,4.0522,,
-88,CHEMBL294199,CAPSAICIN,4.0489,,
-89,CHEMBL79,LIDOCAINE,4.0171,,
-90,CHEMBL1200699,DOXYCYCLINE,4.0036,strict,
-91,CHEMBL666,FOSCARNET,3.9994,,
-92,CHEMBL2104415,MOXIDECTIN,3.9969,,
-93,CHEMBL84,TOPOTECAN,3.9859,,
-94,CHEMBL1389,LEVONORGESTREL,3.9834,,
-95,CHEMBL481,IRINOTECAN,3.9804,,
-96,CHEMBL2107359,PAFURAMIDINE MALEATE,3.9759,,
-97,CHEMBL443,SULFAMETHOXAZOLE,3.9641,strict,
-98,CHEMBL547,ISOTRETINOIN,3.9634,,
-99,CHEMBL685,MEBENDAZOLE,3.9532,,
-100,CHEMBL1450,ATOVAQUONE,3.9379,,
+rank,drug_id,drug_name,score,train_deg,already_known_as,mechanism_summary
+1,CHEMBL36,PYRIMETHAMINE,7.4702,11,,"n_targets=2 | pathways(4)=HEXB->Neutrophil degranulation<-LTF; HEXB->Neutrophil degranulation<-MAPK1 | disease_bridge=obsolete_malaria(4g), obsolete_epilepsy(2g)"
+2,CHEMBL1201139,MEGESTROL ACETATE,6.5564,6,,"n_targets=2 | shared_genes=NR3C1 | pathways(12)=NR3C1->HSP90 chaperone cycle for st<-NR3C1; NR3C1->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=obsolete_chronic obstruc(5g), obsolete_head and neck m(1g)"
+3,CHEMBL710,FINASTERIDE,6.4457,8,,"n_targets=3 | disease_bridge=obsolete_acne(4g), obsolete_benign prostati(2g)"
+4,CHEMBL223228,EFAVIRENZ,6.3655,6,trial-stage,"n_targets=0 | disease_bridge=obsolete_epilepsy(2g), obsolete_HIV infection(2g)"
+5,CHEMBL1042,CHOLECALCIFEROL,6.2496,40,trial-stage,"n_targets=1 | shared_genes=VDR | pathways(4)=VDR->Nuclear Receptor transcripti<-NR3C1; VDR->Nuclear Receptor transcripti<-VDR | disease_bridge=obsolete_urinary tract i(5g), obsolete_chronic obstruc(5g)"
+6,CHEMBL137,METRONIDAZOLE,5.8874,17,trial-stage,"n_targets=0 | disease_bridge=obsolete_pneumonia(5g), obsolete_rosacea(4g)"
+7,CHEMBL606,MISOPROSTOL,5.7607,14,,"n_targets=4 | disease_bridge=pregnancy(1g), osteoarthritis(1g)"
+8,CHEMBL600,ACETYLCYSTEINE,5.7250,32,strict,"n_targets=10 | pathways(14)=CHUK->FCERI mediated NF-kB activat<-RPS27A; CHUK->IKK complex recruitment medi<-RPS27A | disease_bridge=obsolete_chronic obstruc(5g), obsolete_amyloidosis(5g)"
+9,CHEMBL1509,DROSPIRENONE,5.6919,5,,"n_targets=4 | shared_genes=NR3C1 | pathways(24)=AR->HSP90 chaperone cycle for st<-NR3C1; AR->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=obsolete_acne(4g), obsolete_epilepsy(2g)"
+10,CHEMBL127,MEROPENEM,5.6103,13,trial-stage,"n_targets=0 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+11,CHEMBL702,PIPERACILLIN,5.5840,16,,"n_targets=0 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+12,CHEMBL1539,SULFADOXINE,5.5648,5,,"n_targets=0 | disease_bridge=obsolete_malaria(4g), obsolete_epilepsy(2g)"
+13,CHEMBL103,PROGESTERONE,5.5631,16,,"n_targets=9 | shared_genes=NR3C1 | pathways(36)=AR->HSP90 chaperone cycle for st<-NR3C1; AR->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=obsolete_nicotine depend(2g), obsolete_epilepsy(2g)"
+14,CHEMBL270190,ALVIMOPAN,5.5631,5,,n_targets=3 | pathways(8)=OPRD1->Interleukin-4 and Interleuki<-CCL2; OPRD1->Interleukin-4 and Interleuki<-MMP1
+15,CHEMBL404,TAZOBACTAM,5.5363,17,,"n_targets=0 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+16,CHEMBL1434,MINOCYCLINE,5.5030,32,trial-stage,"n_targets=20 | shared_genes=MAPK1,MAPK3 | pathways(132)=ALOX5->Interleukin-4 and Interleuki<-CCL2; ALOX5->Interleukin-4 and Interleuki<-MMP1 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+17,CHEMBL1622,FOLIC ACID,5.4071,15,trial-stage,"n_targets=3 | pathways(4)=FOLR3->Neutrophil degranulation<-LTF; FOLR3->Neutrophil degranulation<-MAPK1 | disease_bridge=obsolete_malaria(4g), obsolete_acne(4g)"
+18,CHEMBL3186492,ONDANSETRON HYDROCHLORIDE,5.3882,3,,n_targets=1
+19,CHEMBL135,ESTRADIOL,5.3794,14,,"n_targets=7 | shared_genes=CHRNA4 | pathways(19)=BECN1->ISG15 antiviral mechanism<-MAPK3; BECN1->ISG15 antiviral mechanism<-RPS27A | disease_bridge=obsolete_urinary tract i(5g), obsolete_epilepsy(2g)"
+20,CHEMBL1200969,DUTASTERIDE,5.3713,8,,"n_targets=3 | disease_bridge=obsolete_benign prostati(2g), prostate cancer(1g)"
+21,CHEMBL1617,RIFAXIMIN,5.3646,8,,"n_targets=1 | pathways(4)=NR1I2->Nuclear Receptor transcripti<-NR3C1; NR1I2->Nuclear Receptor transcripti<-VDR | disease_bridge=obsolete_rosacea(4g), obsolete_HIV infection(2g)"
+22,CHEMBL1483,ALBENDAZOLE,5.2954,8,trial-stage,"n_targets=2 | pathways(6)=TUBA1A->HSP90 chaperone cycle for st<-NR3C1; TUBB4B->HSP90 chaperone cycle for st<-NR3C1 | disease_bridge=obsolete_malaria(4g), obsolete_filarial elepha(4g)"
+23,CHEMBL1282,IMIQUIMOD,5.2591,12,,"n_targets=2 | pathways(8)=TLR7->Potential therapeutics for S<-IFNGR1; TLR7->Potential therapeutics for S<-NR3C1 | disease_bridge=obsolete_influenza(1g), obsolete_human papilloma(1g)"
+24,CHEMBL196,ASCORBIC ACID,5.2016,17,trial-stage,"n_targets=14 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+25,CHEMBL1140,NIACINAMIDE,5.1796,7,,"n_targets=4 | pathways(4)=BST1->Neutrophil degranulation<-LTF; BST1->Neutrophil degranulation<-MAPK1 | disease_bridge=obsolete_acne(4g), obsolete_psoriasis(2g)"
+26,CHEMBL1753,CLINDAMYCIN,5.1643,8,,"n_targets=0 | disease_bridge=obsolete_pneumonia(5g), obsolete_malaria(4g)"
+27,CHEMBL1655,TOREMIFENE,5.1433,5,,"n_targets=3 | pathways(8)=ESR1->Extra-nuclear estrogen signa<-MMP7; ESR1->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=prostate cancer(1g), obsolete_osteoporosis(1g)"
+28,CHEMBL106,FLUCONAZOLE,5.1313,6,,"n_targets=0 | disease_bridge=obsolete_urinary tract i(5g), obsolete_HIV infection(2g)"
+29,CHEMBL1435,CEFAZOLIN,5.1045,13,,"n_targets=3 | pathways(2)=IL2->RAF/MAP kinase cascade<-MAPK1; IL2->RAF/MAP kinase cascade<-MAPK3 | disease_bridge=bacterial urinary tract (5g), prostate cancer(1g)"
+30,CHEMBL236687,PERILLYL ALCOHOL,5.0467,3,,"n_targets=0 | disease_bridge=prostate cancer(1g), pancreatic carcinoma(1g)"
+31,CHEMBL877,TRANEXAMIC ACID,5.0462,21,,"n_targets=1 | pathways(8)=PLG->Activation of Matrix Metallo<-MMP1; PLG->Activation of Matrix Metallo<-MMP13 | disease_bridge=obsolete_Abdominal Aorti(3g), abnormal inflammatory re(2g)"
+32,CHEMBL1200335,TESTOSTERONE ENANTHATE,4.9830,5,,"n_targets=3 | pathways(17)=AR->HSP90 chaperone cycle for st<-NR3C1; AR->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=obsolete_chronic obstruc(5g), obsolete_epilepsy(2g)"
+33,CHEMBL25,ASPIRIN,4.9633,56,trial-stage,"n_targets=27 | shared_genes=MAPK1,MAPK3,PTGS2 | pathways(98)=CASP3->Degradation of the extracell<-MMP1; CASP3->Degradation of the extracell<-MMP13 | disease_bridge=obsolete_pneumonia(5g), obsolete_chronic obstruc(5g)"
+34,CHEMBL109,VALPROIC ACID,4.9261,11,,"n_targets=22 | pathways(12)=HDAC2->Potential therapeutics for S<-IFNGR1; HDAC2->Potential therapeutics for S<-NR3C1 | disease_bridge=obsolete_epilepsy(2g), obsolete_HIV infection(2g)"
+35,CHEMBL2107067,TESTOSTERONE UNDECANOATE,4.8981,7,,"n_targets=3 | pathways(17)=AR->HSP90 chaperone cycle for st<-NR3C1; AR->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=prostate cancer(1g), obsolete_coronary artery(1g)"
+36,CHEMBL33,LEVOFLOXACIN ANHYDROUS,4.8897,25,strict,"n_targets=0 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+37,CHEMBL529,AZITHROMYCIN,4.8818,39,trial-stage,"n_targets=1 | disease_bridge=obsolete_pneumonia(5g), obsolete_chronic obstruc(5g)"
+38,CHEMBL1389,LEVONORGESTREL,4.8806,6,,"n_targets=6 | shared_genes=NR3C1 | pathways(24)=AR->HSP90 chaperone cycle for st<-NR3C1; AR->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=obsolete_epilepsy(2g), obsolete_HIV infection(2g)"
+39,CHEMBL8,CIPROFLOXACIN,4.8806,23,,"n_targets=2 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+40,CHEMBL4,OFLOXACIN,4.8444,28,,"n_targets=1 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+41,CHEMBL1256686,CALCIMYCIN,4.8067,1,,n_targets=0 | disease_bridge=obsolete_male infertilit(3g)
+42,CHEMBL428647,PACLITAXEL,4.7886,49,,"n_targets=20 | pathways(32)=BCL2->Interleukin-4 and Interleuki<-CCL2; BCL2->Interleukin-4 and Interleuki<-MMP1 | disease_bridge=obsolete_psoriasis(2g), obsolete_benign prostati(2g)"
+43,CHEMBL986,RETINOL,4.7684,8,strict,"n_targets=7 | disease_bridge=obsolete_malaria(4g), obsolete_acne(4g)"
+44,CHEMBL367149,DOCONEXENT,4.7344,14,,"n_targets=6 | pathways(16)=PPARA->Nuclear Receptor transcripti<-NR3C1; PPARA->Nuclear Receptor transcripti<-VDR | disease_bridge=obsolete_epilepsy(2g), abnormal inflammatory re(2g)"
+45,CHEMBL1449676,ORNIDAZOLE,4.7111,3,,n_targets=0 | disease_bridge=obsolete_rectum cancer(1g)
+46,CHEMBL1401,NITAZOXANIDE,4.6551,10,strict,"n_targets=0 | disease_bridge=obsolete_periodontitis(4g), obsolete_severe acute re(2g)"
+47,CHEMBL44884,ETHAMBUTOL,4.6017,5,strict,"n_targets=0 | disease_bridge=sarcoidosis(1g), obsolete_diabetic retino(1g)"
+48,CHEMBL1431,METFORMIN,4.5958,33,trial-stage,"n_targets=53 | pathways(51)=ETFDH->Respiratory electron transpo<-COX6C; MT-ND1->Respiratory electron transpo<-COX6C | disease_bridge=obsolete_chronic obstruc(5g), obsolete_pleural effusio(4g)"
+49,CHEMBL1088977,ADEMETIONINE,4.5895,6,,"n_targets=5 | pathways(2)=COMT->Potential therapeutics for S<-IFNGR1; COMT->Potential therapeutics for S<-NR3C1 | disease_bridge=obsolete_nicotine depend(2g), hepatitis C virus infect(2g)"
+50,CHEMBL498847,SECNIDAZOLE,4.5418,3,,n_targets=0
+51,CHEMBL298734,LONAFARNIB,4.5402,7,,"n_targets=2 | pathways(4)=FNTA->Potential therapeutics for S<-IFNGR1; FNTA->Potential therapeutics for S<-NR3C1 | disease_bridge=obsolete_chronic myelomo(1g), chronic myelogenous leuk(1g)"
+52,CHEMBL1679,LEUCOVORIN,4.5385,29,,"n_targets=0 | disease_bridge=pancreatic ductal adenoc(1g), pancreatic carcinoma(1g)"
+53,CHEMBL870,ALENDRONIC ACID,4.5344,8,,"n_targets=5 | disease_bridge=obsolete_periodontitis(4g), obsolete_HIV infection(2g)"
+54,CHEMBL940,GABAPENTIN,4.5159,20,,"n_targets=29 | disease_bridge=obsolete_nicotine depend(2g), obsolete_epilepsy(2g)"
+55,CHEMBL416956,MEFLOQUINE,4.5054,3,,"n_targets=1 | disease_bridge=obsolete_malaria(4g), obsolete_epilepsy(2g)"
+56,CHEMBL115,INDINAVIR ANHYDROUS,4.4788,6,,"n_targets=0 | disease_bridge=obsolete_HIV infection(2g), obsolete_sarcoma(1g)"
+57,CHEMBL295698,LEVOKETOCONAZOLE,4.4718,1,,n_targets=5
+58,CHEMBL655,MIDAZOLAM,4.4588,14,,"n_targets=16 | disease_bridge=obsolete_chronic obstruc(5g), obsolete_epilepsy(2g)"
+59,CHEMBL2218878,TRIMETREXATE GLUCURONATE,4.4469,3,,"n_targets=0 | disease_bridge=pancreatic carcinoma(1g), obsolete_sarcoma(1g)"
+60,CHEMBL1098,BUPIVACAINE,4.4439,11,,"n_targets=3 | disease_bridge=obsolete_chronic obstruc(5g), obsolete_epilepsy(2g)"
+61,CHEMBL119,TRIMETREXATE,4.4299,3,,"n_targets=0 | disease_bridge=pancreatic carcinoma(1g), obsolete_sarcoma(1g)"
+62,CHEMBL32,MOXIFLOXACIN,4.4169,26,trial-stage,"n_targets=1 | disease_bridge=obsolete_pneumonia(5g), obsolete_chronic obstruc(5g)"
+63,CHEMBL174,AMPICILLIN,4.4037,16,,"n_targets=1 | pathways(2)=TEK->RAF/MAP kinase cascade<-MAPK1; TEK->RAF/MAP kinase cascade<-MAPK3 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+64,CHEMBL924,ZOLEDRONIC ACID ANHYDROUS,4.3950,19,,"n_targets=2 | disease_bridge=prostate cancer(1g), osteogenesis imperfecta(1g)"
+65,CHEMBL108,CARBAMAZEPINE,4.3831,10,,"n_targets=12 | shared_genes=CHRNA4 | pathways(4)=NR1I2->Nuclear Receptor transcripti<-NR3C1; NR1I2->Nuclear Receptor transcripti<-VDR | disease_bridge=obsolete_epilepsy(2g), obsolete_HIV infection(2g)"
+66,CHEMBL1447,LINCOMYCIN,4.3826,4,,n_targets=0
+67,CHEMBL1201244,ROCURONIUM,4.3779,3,,"n_targets=8 | disease_bridge=prostate cancer(1g), pancreatic carcinoma(1g)"
+68,CHEMBL836,TAMSULOSIN,4.3773,6,,"n_targets=3 | disease_bridge=obsolete_benign prostati(2g), prostate cancer(1g)"
+69,CHEMBL374478,RIFAMPIN,4.3540,6,strict,"n_targets=1 | pathways(4)=NR1I2->Nuclear Receptor transcripti<-NR3C1; NR1I2->Nuclear Receptor transcripti<-VDR | disease_bridge=obsolete_reactive arthri(4g), obsolete_anthrax infecti(4g)"
+70,CHEMBL1201247,GOSERELIN,4.3283,10,,"n_targets=2 | disease_bridge=prostate cancer(1g), obsolete_uterine fibroid(1g)"
+71,CHEMBL334533,DEXANABINOL,4.3226,1,,n_targets=1 | shared_genes=TNF | pathways(7)=TNF->Interleukin-10 signaling<-CCL2; TNF->Interleukin-10 signaling<-PTGS2
+72,CHEMBL1364,PYRIDOXINE,4.3165,14,trial-stage,"n_targets=0 | disease_bridge=obsolete_gastroenteritis(2g), obsolete_epilepsy(2g)"
+73,CHEMBL1531,ETONOGESTREL,4.2768,5,,"n_targets=1 | pathways(5)=PGR->HSP90 chaperone cycle for st<-NR3C1; PGR->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=obsolete_epilepsy(2g), obsolete_benign prostati(2g)"
+74,CHEMBL1359,ERTAPENEM,4.2662,10,trial-stage,"n_targets=0 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+75,CHEMBL83,TAMOXIFEN,4.2480,17,,"n_targets=17 | pathways(35)=AR->HSP90 chaperone cycle for st<-NR3C1; AR->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=obsolete_male infertilit(3g), obsolete_HIV infection(2g)"
+76,CHEMBL161,CEFTRIAXONE,4.2438,17,,"n_targets=0 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+77,CHEMBL1200680,SELENIUM SULFIDE,4.2425,10,strict,"n_targets=0 | disease_bridge=dermatitis(6g), obsolete_chronic obstruc(5g)"
+78,CHEMBL691,ETHINYL ESTRADIOL,4.2413,6,,"n_targets=2 | pathways(9)=ESR1->Extra-nuclear estrogen signa<-MMP7; ESR1->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=obsolete_acne(4g), obsolete_epilepsy(2g)"
+79,CHEMBL1440,TETRACYCLINE,4.2402,21,,"n_targets=1 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+80,CHEMBL90593,PRASTERONE,4.2332,10,,"n_targets=30 | pathways(33)=AR->HSP90 chaperone cycle for st<-NR3C1; AR->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=obsolete_malaria(4g), obsolete_HIV infection(2g)"
+81,CHEMBL42336,METHIONINE,4.2227,5,,"n_targets=4 | disease_bridge=obsolete_chronic hepatit(2g), sarcoidosis(1g)"
+82,CHEMBL2355051,CLOMIPHENE,4.2212,7,,"n_targets=2 | pathways(5)=ESR1->Extra-nuclear estrogen signa<-MMP7; ESR1->Nuclear Receptor transcripti<-NR3C1 | disease_bridge=obsolete_male infertilit(3g), obsolete_obesity(1g)"
+83,CHEMBL1082,AMOXICILLIN,4.1944,34,trial-stage,"n_targets=0 | disease_bridge=obsolete_urinary tract i(5g), obsolete_pneumonia(5g)"
+84,CHEMBL1059,PREGABALIN,4.1936,15,,"n_targets=26 | disease_bridge=obsolete_epilepsy(2g), obsolete_dry eye syndrom(2g)"
+85,CHEMBL3989759,EXATECAN MESYLATE,4.1865,6,,"n_targets=0 | disease_bridge=prostate cancer(1g), pancreatic carcinoma(1g)"
+86,CHEMBL52609,DOXRIBTIMINE,4.1825,3,,n_targets=1
+87,CHEMBL86,METOCLOPRAMIDE,4.1771,7,,"n_targets=4 | disease_bridge=obsolete_gastroenteritis(2g), obsolete_epilepsy(2g)"
+88,CHEMBL1448,NICLOSAMIDE,4.1580,2,,n_targets=0 | disease_bridge=obsolete_Helminthiasis(4g)
+89,CHEMBL1077896,ROPIVACAINE,4.1496,11,,"n_targets=10 | disease_bridge=obsolete_chronic obstruc(5g), pregnancy(1g)"
+90,CHEMBL897,PROBENECID,4.1324,6,,"n_targets=4 | disease_bridge=obsolete_urinary tract i(5g), obsolete_male infertilit(3g)"
+91,CHEMBL1200409,LIDOCAINE HYDROCHLORIDE,4.1321,5,,"n_targets=10 | disease_bridge=pregnancy(1g), obsolete_prostate carcin(1g)"
+92,CHEMBL435966,NIMORAZOLE,4.1289,2,,n_targets=0 | disease_bridge=obsolete_head and neck s(1g)
+93,CHEMBL236297,RIFALAZIL,4.1204,2,,n_targets=0 | disease_bridge=obsolete_Chlamydia trach(4g)
+94,CHEMBL572284,OMBRABULIN,4.1128,2,,n_targets=15 | pathways(24)=TUBA1A->HSP90 chaperone cycle for st<-NR3C1; TUBA1B->HSP90 chaperone cycle for st<-NR3C1 | disease_bridge=obsolete_sarcoma(1g)
+95,CHEMBL659,GALANTAMINE,4.1094,9,,"n_targets=3 | disease_bridge=obsolete_chronic obstruc(5g), obsolete_nicotine depend(2g)"
+96,CHEMBL16,PHENYTOIN,4.1042,10,,"n_targets=38 | pathways(4)=NR1I2->Nuclear Receptor transcripti<-NR3C1; NR1I2->Nuclear Receptor transcripti<-VDR | disease_bridge=obsolete_epilepsy(2g), systemic lupus erythemat(1g)"
+97,CHEMBL1201304,INDOCYANINE GREEN ACID FORM,4.0994,3,,"n_targets=0 | disease_bridge=periodontal disorder(4g), obsolete_periodontitis(4g)"
+98,CHEMBL118218,IROFULVEN,4.0985,11,,"n_targets=1 | disease_bridge=prostate cancer(1g), pancreatic carcinoma(1g)"
+99,CHEMBL1200699,DOXYCYCLINE,4.0967,24,strict,"n_targets=4 | shared_genes=MMP1,MMP13,MMP7,MMP8 | pathways(65)=MMP1->Activation of Matrix Metallo<-MMP1; MMP1->Activation of Matrix Metallo<-MMP13 | disease_bridge=obsolete_pneumonia(5g), obsolete_chronic obstruc(5g)"
+100,CHEMBL790,CHLORHEXIDINE,4.0780,5,,"n_targets=0 | disease_bridge=obsolete_pneumonia(5g), obsolete_chronic obstruc(5g)"

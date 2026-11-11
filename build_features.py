@@ -23,7 +23,7 @@ import numpy as np
 import requests
 
 FOLDER = os.environ.get("HYP_FOLDER", "C:/Users/Abuba/Desktop/FYP/OptimusKG_Subgraph/")
-NEWEST_FIRST = ["kg_v13_pathways", "kg_v12_mechanisms", "kg_v11_clean", "kg_v10_drugs_fixed"]
+NEWEST_FIRST = ["kg_v14_expanded", "kg_v13_pathways", "kg_v12_mechanisms", "kg_v11_clean", "kg_v10_drugs_fixed"]
 CHEMBL = "https://www.ebi.ac.uk/chembl/api/data"
 FP_BITS, TEXT_DIMS = 1024, 256
 

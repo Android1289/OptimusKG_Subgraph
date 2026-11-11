@@ -11,7 +11,7 @@ from collections import Counter
 import networkx as nx
 
 FOLDER = os.environ.get("HYP_FOLDER", "C:/Users/Abuba/Desktop/FYP/OptimusKG_Subgraph/")
-NEWEST_FIRST = ["kg_v13_pathways", "kg_v12_mechanisms", "kg_v11_clean", "kg_v10_drugs_fixed", "kg_v9_pathways", "kg_v8_disgenet", "kg_v7_drugs"]
+NEWEST_FIRST = ["kg_v14_expanded", "kg_v13_pathways", "kg_v12_mechanisms", "kg_v11_clean", "kg_v10_drugs_fixed", "kg_v9_pathways", "kg_v8_disgenet", "kg_v7_drugs"]
 TARGETS = {"EFO_0005046": "Cutaneous Leishmaniasis", "MONDO_0018076": "Tuberculosis (the 'MDR-TB' node)",
            "EFO_0005547": "Dengue"}
 POSITIVE = {"INDICATION", "OFF_LABEL_USE", "CLINICAL_TRIAL"}      # usable as link-prediction positives

@@ -13,7 +13,8 @@ and writes a NEW file, so nothing is overwritten):
     python enrich_more.py disgenet      # v7 -> kg_v8_disgenet     gene-disease links, academic key (NEW)
     python enrich_more.py pathways      # v8 -> kg_v9_pathways     Reactome pathway layer
     python enrich_more.py clean         # relabel curated edges, drop self-loops, flag candidate drugs (NEW)
-    python enrich_more.py mechanisms    # drug -> human target gene edges from ChEMBL (NEW)
+    python enrich_more.py mechanisms    # drug -> human target gene edges from ChEMBL
+    python enrich_more.py expand        # v13 -> kg_v14_expanded   widen the drug pool from edges.parquet (NEW)
 
 Add  --in FILE  /  --out FILE  to override the default file names.
 """
@@ -38,6 +39,7 @@ FILES = {
     "pathways":    (FOLDER + "kg_v8_disgenet.graphml",                 FOLDER + "kg_v9_pathways.graphml"),
     "clean":       (FOLDER + "kg_v10_drugs_fixed.graphml",             FOLDER + "kg_v11_clean.graphml"),
     "mechanisms":  (FOLDER + "kg_v11_clean.graphml",                   FOLDER + "kg_v12_mechanisms.graphml"),
+    "expand":      (FOLDER + "kg_v13_pathways.graphml",                FOLDER + "kg_v14_expanded.graphml"),
     "review":      (None, None),            # review opens the newest graph file that exists
 }
 
@@ -880,6 +882,53 @@ def step_mechanisms(G):
 
 
 # ----------------------------------------------------------------------------
+# STEP: expand (widen the drug pool: every drug with a clinical edge to ANY disease already in the graph)
+# ----------------------------------------------------------------------------
+def step_expand(G):
+    import polars as pl
+    dis_ids = [n for n, d in G.nodes(data=True) if d.get("label") == "DIS"]
+    before = sum(1 for _, d in G.nodes(data=True) if d.get("label") == "DRG" and d.get("candidate") != "no")
+    print(f"\n{len(dis_ids)} disease nodes in the graph; reading drug-disease edges from {EDGES_PARQUET}")
+    sel = (pl.scan_parquet(EDGES_PARQUET)
+           .filter(pl.col("label") == "DRG-DIS")
+           .filter(pl.col("relation").is_in(["INDICATION", "CONTRAINDICATION", "OFF_LABEL_USE"]))
+           .filter(pl.col("to").is_in(dis_ids))
+           .select(["from", "to", "relation"]).collect())
+    print(f"  {sel.height} drug-disease edges found | {sel['from'].n_unique()} distinct drugs")
+    new_ids = [d for d in sel["from"].unique().to_list() if d not in G]
+    for did in new_ids:
+        add_node(G, did, "DRG", "", source="OptimusKG_expansion", candidate="yes")
+    new_edges = Counter()
+    for row in sel.iter_rows(named=True):
+        if add_edge(G, row["from"], row["to"], relation=row["relation"], label="DRG-DIS", source="OptimusKG"):
+            new_edges[row["relation"]] += 1
+    print(f"  added {len(new_ids)} new drug nodes and {sum(new_edges.values())} edges {dict(new_edges)}")
+
+    need = [n for n in new_ids if str(n).startswith("CHEMBL")]
+    named = with_smiles = 0
+    for i in range(0, len(need), 50):
+        _, data = http_get(f"{CHEMBL}/molecule.json",
+                           {"molecule_chembl_id__in": ",".join(need[i:i + 50]), "limit": 100})
+        for m in (data or {}).get("molecules", []):
+            n = m["molecule_chembl_id"]
+            if n not in G:
+                continue
+            G.nodes[n]["name"] = m.get("pref_name") or ""
+            G.nodes[n]["max_phase"] = m.get("max_phase")
+            smi = (m.get("molecule_structures") or {}).get("canonical_smiles")
+            if smi:
+                G.nodes[n]["smiles"] = smi
+                with_smiles += 1
+            named += bool(m.get("pref_name"))
+        time.sleep(0.3)
+        if (i // 50) % 10 == 9:
+            print(f"  {i + 50}/{len(need)} new drugs described")
+    pool = sum(1 for _, d in G.nodes(data=True) if d.get("label") == "DRG" and d.get("candidate") != "no")
+    print(f"  names for {named} and SMILES for {with_smiles} of {len(need)} new drugs")
+    print(f"  CANDIDATE DRUG POOL IS NOW {pool} drugs (it was {before})")
+
+
+# ----------------------------------------------------------------------------
 # STEP: review (prints what the enrichment added, saves nothing)
 # ----------------------------------------------------------------------------
 def step_review(G):
@@ -902,7 +951,7 @@ def step_review(G):
 # ----------------------------------------------------------------------------
 STEPS = {"verify": step_verify, "opentargets": step_opentargets, "targets": step_targets,
          "drugs": step_drugs, "disgenet": step_disgenet, "pathways": step_pathways, "clean": step_clean,
-         "mechanisms": step_mechanisms, "review": step_review}
+         "mechanisms": step_mechanisms, "expand": step_expand, "review": step_review}
 
 
 def main():
@@ -915,7 +964,7 @@ def main():
     default_in, default_out = FILES[args.step]
     infile, outfile = args.infile or default_in, args.outfile or default_out
     if args.step == "review" and not infile:          # newest graph file that exists
-        for name in ("mechanisms", "clean", "pathways", "disgenet", "drugs", "targets", "opentargets", "verify"):
+        for name in ("expand", "mechanisms", "clean", "pathways", "disgenet", "drugs", "targets", "opentargets", "verify"):
             if os.path.exists(FILES[name][1]):
                 infile = FILES[name][1]
                 break
